@@ -1,0 +1,26 @@
+{
+  "_id": "ethers_sendTransaction",
+  "schema": {
+    "name": "ethers_sendTransaction",
+    "description": "Send a transaction and return the transaction response.\nThe transaction response is the transaction hash.\nIt requires the ethereum address of the recipient and the amount of ether to send.\nIt doesn't support ENS name or alias name.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "to": {
+                "type": "string",
+                "description": "The ethereum address to send the transaction to, Ex: 0x1f9090aaE28b8a3dCeaDf281B0F12828e676c326,\nIt must be ethereum address, ens or alias name aren't supported.\nUse ens-getOwner to get the ethereum address of an ENS name or use addres.\nUse addressBook-getAddress to get an ethereum address for the given alias name."
+            },
+            "value": {
+                "type": "string",
+                "description": "The amount of ether to send, Ex: 0.5"
+            }
+        },
+        "required": ["to", "value"]
+    }
+  },
+  "invocation": {
+    "uri": "wrap://wrapscan.io/polywrap/ethers@1.1.1",
+    "method": "sendTransaction",
+    "args": "{{ \"tx\": {{\"to\": \"{to}\", \"value\": {value} }} }}"
+  }
+}

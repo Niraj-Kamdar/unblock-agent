@@ -1,0 +1,22 @@
+{
+  "_id": "ens_getOwner",
+  "schema": {
+    "name": "ens_getOwner",
+    "description": "Get the owner of an ENS name.\nDo not assume any arguments. Arguments must be passed by user.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "ens": {
+                "type": "string",
+                "description": "The ENS name, Ex: alice.eth"
+            }
+        },
+        "required": ["ens"]
+    }
+  },
+  "invocation": {
+    "uri": "wrap://wrapscan.io/polywrap/ens@1.0",
+    "method": "getOwner",
+    "args": "{{ \"domain\": \"{ens}\" }}"
+  }
+}
