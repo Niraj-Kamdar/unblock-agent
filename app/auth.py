@@ -24,13 +24,19 @@ def validate_api_key(
     """
 
     # Parse the query string from the websocket scope
-    query_string = websocket.scope.get("query_string").decode()
-    query_params = parse_qs(query_string)
+    query_string = websocket.scope.get("query_string")
+    if not query_string:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Missing API Key",
+        )
+
+    query_params = parse_qs(query_string.decode())
     api_key_query = query_params.get("api-key", [None])[0]
 
     if api_key_query and api_key_query in API_KEYS:
         return api_key_query
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Invalid or missing API Key",
+        detail="Invalid API Key",
     )
