@@ -1,4 +1,7 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 FT_PREDICTOR_MODEL = os.getenv("FT_PREDICTOR_MODEL")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")

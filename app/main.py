@@ -1,17 +1,17 @@
 import json
-import os
 import openai
-from fastapi import FastAPI, Security, WebSocket
+from fastapi import Depends, FastAPI, WebSocket
 
 from .constants import (
     FT_PREDICTOR_MODEL,
     PREDICTOR_SYSTEM_PROMPT,
     UNBLOCK_AGENT_SYSTEM_PROMPT,
+    OPENAI_API_KEY,
 )
-from .auth import get_api_key
-from .crud import load_functions
+from .auth import validate_api_key
+from .crud import load_functions, load_functions_by_namespace, get_invocation
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = OPENAI_API_KEY
 app = FastAPI()
 
 
@@ -34,27 +34,36 @@ async def predict_functions(prompt: str):
 async def chat_socket(
     websocket: WebSocket,
     chat_id: str,
-    api_key: str = Security(get_api_key),
 ):
+    validate_api_key(websocket)
+
     await websocket.accept(chat_id)
 
     prompt = await websocket.receive_text()
     function_names = await predict_functions(prompt)
-    functions = load_functions(function_names)
+    function_names = [
+        function_name.replace(".", "_") for function_name in function_names
+    ]
+    system_functions = await load_functions_by_namespace("system")
+    functions = await load_functions(function_names)
+    functions.extend(system_functions)
+
+    openai_functions = [
+        function["schema"] for function in functions
+    ]
 
     messages = [
         {"role": "system", "content": UNBLOCK_AGENT_SYSTEM_PROMPT},
         {"role": "user", "content": prompt},
     ]
 
-    await websocket.send_text(json.dumps(messages[0]))
-    await websocket.send_text(json.dumps(messages[1]))
+    sanity_counter = 0
 
-    while messages[-1]["content"] != "DONE":
+    while messages[-1]["content"] != "DONE" and sanity_counter < 10:
         completion = openai.ChatCompletion.create(
             model="gpt-3.5-turbo-16k-0613",
             messages=messages,
-            functions=functions,
+            functions=openai_functions,
             temperature=0,
             max_tokens=500,
         )
@@ -62,13 +71,41 @@ async def chat_socket(
         messages.append(model_message)
 
         if model_message.get("function_call"):
-            await websocket.send_text("invocation")
             function_name = model_message["function_call"]["name"]
-            function_result = await websocket.receive_text()
-            messages.append(
-                {"role": "function", "name": function_name, "content": function_result}
-            )
+            function_parameters = json.loads(model_message["function_call"]["arguments"])
+
+            try:
+                invocation = await get_invocation(function_name, function_parameters)
+                await websocket.send_text(
+                    json.dumps({"role": "assistant", "invocation": True, "content": invocation})
+                )
+                function_result = await websocket.receive_text()
+                if function_result == "ABORT":
+                    messages.append({"role": "user", "content": "ABORT"})
+                    break
+                messages.append(
+                    {
+                        "role": "function",
+                        "name": function_name,
+                        "content": function_result,
+                    }
+                )
+            except Exception as e:
+                invocation_error_message = {
+                    "role": "function",
+                    "name": function_name,
+                    "error": True,
+                    "content": f"Error: {e}",
+                }
+                sanity_counter += 1
+                messages.append(invocation_error_message)
+                await websocket.send_text(json.dumps(invocation_error_message))
+                on_error = await websocket.receive_text()
+                if on_error == "ABORT":
+                    messages.append({"role": "user", "content": "ABORT"})
+                    break
         else:
+            sanity_counter += 1
             await websocket.send_text(json.dumps(model_message))
 
     await websocket.close()
