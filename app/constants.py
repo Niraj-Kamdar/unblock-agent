@@ -6,6 +6,7 @@ load_dotenv()
 FT_PREDICTOR_MODEL = os.getenv("FT_PREDICTOR_MODEL")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 MONGO_URL = os.getenv("MONGO_URL")
+SANITY_LIMIT = 10
 
 PREDICTOR_SYSTEM_PROMPT = "You are a function extractor. You are to extract the function names from the given prompt."
 UNBLOCK_AGENT_SYSTEM_PROMPT = """
