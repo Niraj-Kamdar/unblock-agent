@@ -1,14 +1,17 @@
 import json
+import os
 import secrets
+from fastapi.responses import HTMLResponse
 import openai
 from fastapi import FastAPI, Security, WebSocket
 from typing import Any
+from motor.motor_asyncio import AsyncIOMotorClient
 
-from .chat import Chat
-from .constants import OPENAI_API_KEY, SANITY_LIMIT
+from .chat import Chat, ChatAndPromptNotFound
+from .constants import OPENAI_API_KEY, SANITY_LIMIT, APP_PATH, MONGO_URL
 from .agent import get_agent_response
 from .auth import get_api_key, validate_api_key
-from .crud import get_invocation, get_chat_from_socket
+from .crud import get_invocation
 from .schemas import (
     ChatCreatedResponse,
     CreateChatRequest,
@@ -19,19 +22,44 @@ from .schemas import (
 
 openai.api_key = OPENAI_API_KEY
 app = FastAPI()
+client: AsyncIOMotorClient
+
+@app.on_event("startup")
+async def startup_event():
+    global client
+    client = AsyncIOMotorClient(MONGO_URL)
+    print("Connected to MongoDB")
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    global client
+    client.close()
+    print("Closed connection to MongoDB")
+
+
+@app.get("/", response_class=HTMLResponse)
+def index():
+    """ Index page of the website """
+    index_path = os.path.join(APP_PATH, "static", "index.html")
+    with open(index_path, "r") as f:
+        html = f.read()
+    return HTMLResponse(content=html, status_code=200)
 
 
 @app.post("/chats", response_model=ChatCreatedResponse, status_code=201, tags=["chats"])
-async def create_chat(request: CreateChatRequest):
+async def create_chat(request: CreateChatRequest, api_key: str = Security(get_api_key)):
     """
     Create a new chat session.
 
     Create and initiate a new chat session. This endpoint returns a unique chat_id
     which can be used for further interactions in the chat session.
     """
+    global client
+    db = client["unblock_agent_db"]
+
     chat_id = secrets.token_urlsafe(16)
-    chat = await Chat.from_db(chat_id, request.prompt)
-    agent_response = await get_agent_response(chat, UserMessage(type=UserMessageType.NONE, content=""))
+    chat = await Chat.from_db(db, chat_id, request.prompt)
+    agent_response = await get_agent_response(db, chat, UserMessage(type=UserMessageType.NONE, content=""))
     return ChatCreatedResponse(
         chat_id=chat.id,
         prompt=chat.prompt,
@@ -50,8 +78,22 @@ async def send_message(
     The chat_id is used to identify the chat session.
     """
 
-    chat = await Chat.from_db(chat_id)
-    return await get_agent_response(chat, request)
+    global client
+    db = client["unblock_agent_db"]
+
+    chat = await Chat.from_db(db, chat_id)
+    return await get_agent_response(db, chat, request)
+
+
+async def get_chat_from_socket(websocket: WebSocket, chat_id: str):
+    global client
+    db = client["unblock_agent_db"]
+
+    try:
+        return await Chat.from_db(db, chat_id)
+    except ChatAndPromptNotFound:
+        prompt = await websocket.receive_text()
+        return await Chat.from_db(db, chat_id, prompt)
 
 
 @app.websocket("/chats/{chat_id}")
@@ -62,6 +104,9 @@ async def chat_socket(
     validate_api_key(websocket)
 
     await websocket.accept(chat_id)
+
+    global client
+    db = client["unblock_agent_db"]
 
     chat = await get_chat_from_socket(websocket, chat_id)
     functions = await chat.functions()
@@ -84,7 +129,7 @@ async def chat_socket(
             )
 
             try:
-                invocation = await get_invocation(function_name, function_parameters)
+                invocation = await get_invocation(db["functions"], function_name, function_parameters)
                 await websocket.send_text(
                     json.dumps(
                         {"role": "assistant", "invocation": True, "content": invocation}

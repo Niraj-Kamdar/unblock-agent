@@ -1,6 +1,7 @@
 import json
 import openai
 from typing import Any
+from motor.core import AgnosticDatabase
 
 from .constants import SANITY_LIMIT
 from .crud import get_invocation
@@ -13,9 +14,22 @@ from .schemas import (
 from .chat import Chat
 
 
-async def get_agent_response(chat: Chat, message: UserMessage) -> AgentResponse:
+async def get_agent_response(
+    db: AgnosticDatabase, chat: Chat, message: UserMessage
+) -> AgentResponse:
     if chat.sanity_counter >= SANITY_LIMIT:
-        return AgentResponse(type=AgentResponseType.ERROR, content="SANITY_LIMIT_REACHED")
+        return AgentResponse(
+            type=AgentResponseType.ERROR, content="SANITY_LIMIT_REACHED"
+        )
+
+    if (
+        chat.messages[-1].get("function_call")
+        and chat.messages[-1]["function_call"]["name"] == "system_taskCompleted"
+    ):
+        return AgentResponse(
+            type=AgentResponseType.END,
+            content=json.loads(chat.messages[-1]["function_call"]["arguments"])["finalMessage"],
+        )
 
     match message.type:
         case UserMessageType.ABORT:
@@ -26,7 +40,7 @@ async def get_agent_response(chat: Chat, message: UserMessage) -> AgentResponse:
         case UserMessageType.FUNCTION:
             await chat.messages.append(
                 {
-                    "role": "function_call",
+                    "role": "function",
                     "name": message.function_name,
                     "content": message.content,
                 }
@@ -43,6 +57,7 @@ async def get_agent_response(chat: Chat, message: UserMessage) -> AgentResponse:
         max_tokens=500,
     )
     model_message = completion["choices"][0]["message"]
+    print(model_message)
     await chat.messages.append(model_message)
 
     if model_message.get("function_call"):
@@ -50,7 +65,10 @@ async def get_agent_response(chat: Chat, message: UserMessage) -> AgentResponse:
         function_parameters = json.loads(model_message["function_call"]["arguments"])
 
         try:
-            invocation = await get_invocation(function_name, function_parameters)
+            functions_collection = db["functions"]
+            invocation = await get_invocation(
+                functions_collection, function_name, function_parameters
+            )
             return AgentResponse(
                 type=AgentResponseType.INVOCATION,
                 content=json.dumps(
@@ -78,4 +96,10 @@ async def get_agent_response(chat: Chat, message: UserMessage) -> AgentResponse:
             )
     else:
         await chat.sanity_counter.increment(1)
-        return AgentResponse(type=AgentResponseType.MESSAGE, content=model_message["content"])
+        await chat.messages.append({
+            "role": "user",
+            "content": "You must call a function to achieve the given task."
+        })
+        return AgentResponse(
+            type=AgentResponseType.MESSAGE, content=model_message["content"]
+        )

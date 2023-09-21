@@ -1,0 +1,22 @@
+{
+  "_id": "system_taskCompleted",
+  "schema": {
+    "name": "system_taskCompleted",
+    "description": "This function should be called once the given task is completed.\nYou should use result of the executed functions and metadata to write finalMessage that user would need to confirm the task has been achieved.\nAfter invoking this function, no further messages or functions can be called for the user.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "finalMessage": {
+                "type": "string",
+                "description": "The final message that you want to send to the user upon completion of the task.\nThis message must be written in a way that the user can confirm that the task has been completed."
+            }
+        },
+        "required": ["finalMessage"]
+    }
+  },
+  "invocation": {
+    "uri": "wrap://wrapscan.io/polywrap/system/taskCompleted@1.0",
+    "method": "taskCompleted",
+    "args": "{{ \"finalMessage\": \"{finalMessage}\" }}"
+  }
+}

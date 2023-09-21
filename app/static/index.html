@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Overview</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 5% auto;
+            max-width: 800px;
+            background-color: #f7f9fc;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        a {
+            color: #3498db;
+        }
+        code {
+            background-color: #f3f4f6;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Our API</h1>
+    <p>This page provides basic details about our REST API and WebSocket functionalities.</p>
+
+    <h2>REST API</h2>
+    <ul>
+        <li><code>POST /chats</code>: Create a new chat session. Returns a unique chat_id.</li>
+        <li><code>PUT /chats/{chat_id}</code>: Send a message to a chat session and get a response.</li>
+    </ul>
+    <p>For more details, visit our <a href="/docs">Swagger Documentation</a>.</p>
+
+    <h2>WebSocket</h2>
+    <p>For real-time chat capabilities, we offer WebSocket communication.</p>
+    <ul>
+        <li>Connect via: <code>ws://your_domain/chats/{chat_id}</code></li>
+    </ul>
+    <p>Remember to provide the API key for authentication purposes.</p>
+
+    <h2>How to Use</h2>
+    <ol>
+        <li>Create a chat session using the REST API's POST endpoint.</li>
+        <li>Use the returned chat_id to interact using either REST or WebSocket methods.</li>
+    </ol>
+</body>
+</html>

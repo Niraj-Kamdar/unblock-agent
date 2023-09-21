@@ -15,6 +15,7 @@ class AgentResponseType(IntEnum):
     INVOCATION = 1
     ERROR = 2
     VALIDATION = 3
+    END = 4
 
 
 class AgentResponse(BaseModel):

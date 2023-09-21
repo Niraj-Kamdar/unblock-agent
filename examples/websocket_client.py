@@ -7,7 +7,7 @@ import secrets
 import websockets
 import asyncio
 
-async def test_websocket():
+async def websocket_demo():
     chat_id = secrets.token_hex(16)
     async with websockets.connect(f"wss://unblock-agent.fly.dev/chats/{chat_id}?api-key=923adjhb-288cbjSudhuido-828bchbcj", subprotocols=[chat_id]) as websocket:
         # await websocket.send("Send 5 ether to vitalik.eth")
@@ -31,4 +31,4 @@ async def test_websocket():
                     continue
 
 
-asyncio.run(test_websocket())
+asyncio.run(websocket_demo())
