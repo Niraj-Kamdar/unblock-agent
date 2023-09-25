@@ -1,0 +1,12 @@
+{
+  "_id": "ethers_getSignerAddress",
+  "schema": {
+    "name": "ethers_getSignerAddress",
+    "description": "Get the address of the signer"
+  },
+  "invocation": {
+    "uri": "wrap://wrapscan.io/polywrap/ethers@1.1.1",
+    "method": "getSignerAddress",
+    "args": "{{}}"
+  }
+}

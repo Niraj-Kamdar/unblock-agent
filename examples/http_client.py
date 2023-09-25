@@ -7,9 +7,9 @@ import json
 def http_demo():
     # Step 1: Create a chat session
     create_chat_request = dict(
-        prompt="Send 5 ether to vitalik.eth"
+        prompt="Send 5000 gwei to vitalik.eth"
     )
-    with Client(base_url="http://localhost:8000", timeout=10) as client:
+    with Client(base_url="https://unblock-agent.fly.dev/", timeout=60) as client:
         http_response = client.post(
             "/chats?api-key=923adjhb-288cbjSudhuido-828bchbcj", json=create_chat_request
         )
@@ -30,8 +30,8 @@ def http_demo():
                     content="",
                 )
                 with Client(
-                    base_url="http://localhost:8000",
-                    timeout=10,
+                    base_url="https://unblock-agent.fly.dev/",
+                    timeout=60,
                 ) as client:
                     put_response = client.put(
                         f"/chats/{chat_id}?api-key=923adjhb-288cbjSudhuido-828bchbcj",
@@ -69,8 +69,8 @@ def http_demo():
                 pprint(user_message_payload)
 
                 with Client(
-                    base_url="http://localhost:8000",
-                    timeout=10,
+                    base_url="https://unblock-agent.fly.dev/",
+                    timeout=60,
                 ) as client:
                     put_response = client.put(
                         f"/chats/{chat_id}?api-key=923adjhb-288cbjSudhuido-828bchbcj",

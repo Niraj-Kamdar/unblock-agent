@@ -23,8 +23,9 @@ async def get_invocation(
     if not function:
         raise ValueError(f"Function {function_name} not found")
 
-    parameters_schema = function["schema"]["parameters"]
-    jsonschema.validate(function_parameters, parameters_schema)
+    if function["schema"].get("parameters"):
+        parameters_schema = function["schema"]["parameters"]
+        jsonschema.validate(function_parameters, parameters_schema)
 
     invocation = function["invocation"]
     invocation["args"] = json.loads(invocation["args"].format(**function_parameters))

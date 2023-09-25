@@ -2,7 +2,7 @@
   "_id": "ethers_getBalance",
   "schema": {
     "name": "ethers_getBalance",
-    "description": "Get the balance of an ethereum address\nIt requires the ethereum address of the holder.\nIt doesn't support ENS name or alias name.",
+    "description": "Get the balance of an ethereum address in wei\nIt requires the ethereum address of the holder.\nIt doesn't support ENS name or alias name.",
     "parameters": {
         "type": "object",
         "properties": {

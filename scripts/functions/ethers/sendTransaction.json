@@ -2,7 +2,7 @@
   "_id": "ethers_sendTransaction",
   "schema": {
     "name": "ethers_sendTransaction",
-    "description": "Send a transaction and return the transaction response.\nThe transaction response is the transaction hash.\nIt requires the ethereum address of the recipient and the amount of ether to send.\nIt doesn't support ENS name or alias name.",
+    "description": "Send a transaction and return the transaction response.\nThe transaction response is the transaction hash.\nIt requires the ethereum address of the recipient and the amount of wei to send.\nIt doesn't support ENS name or alias name.",
     "parameters": {
         "type": "object",
         "properties": {
@@ -12,7 +12,7 @@
             },
             "value": {
                 "type": "string",
-                "description": "The amount of ether to send, Ex: 0.5"
+                "description": "The amount of wei to send, Ex: \"1000000000000000000\""
             }
         },
         "required": ["to", "value"]
@@ -21,6 +21,6 @@
   "invocation": {
     "uri": "wrap://wrapscan.io/polywrap/ethers@1.1.1",
     "method": "sendTransaction",
-    "args": "{{ \"tx\": {{\"to\": \"{to}\", \"value\": {value} }} }}"
+    "args": "{{ \"tx\": {{\"to\": \"{to}\", \"value\": \"{value}\" }} }}"
   }
 }

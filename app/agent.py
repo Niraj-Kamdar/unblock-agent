@@ -57,7 +57,6 @@ async def get_agent_response(
         max_tokens=500,
     )
     model_message = completion["choices"][0]["message"]
-    print(model_message)
     await chat.messages.append(model_message)
 
     if model_message.get("function_call"):
