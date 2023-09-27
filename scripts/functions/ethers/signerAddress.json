@@ -2,8 +2,9 @@
   "_id": "ethers_getSignerAddress",
   "schema": {
     "name": "ethers_getSignerAddress",
-    "description": "Get the address of the signer"
+    "description": "Get the address of the connected signer"
   },
+  "description": "Get the address of the connected signer.",
   "invocation": {
     "uri": "wrap://wrapscan.io/polywrap/ethers@1.1.1",
     "method": "getSignerAddress",

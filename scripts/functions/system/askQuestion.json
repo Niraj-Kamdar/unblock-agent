@@ -8,12 +8,14 @@
         "properties": {
             "question": {
                 "type": "string",
+                "minLength": 1,
                 "description": "Question you want to ask to the user."
             }
         },
         "required": ["question"]
     }
   },
+  "description": "Agent: {question}",
   "invocation": {
     "uri": "wrap://wrapscan.io/polywrap/system/askQuestion@1.0",
     "method": "askQuestion",

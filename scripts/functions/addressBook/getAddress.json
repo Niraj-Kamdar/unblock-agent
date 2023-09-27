@@ -8,12 +8,14 @@
         "properties": {
             "name": {
                 "type": "string",
+                "minLength": 1,
                 "description": "The name of the contact, Ex: Alice, Bob, etc."
             }
         },
         "required": ["name"]
     }
   },
+  "description": "Get the ethereum address of {name}.",
   "invocation": {
     "uri": "wrap://wrapscan.io/polywrap/addressBook@1.0",
     "method": "get",

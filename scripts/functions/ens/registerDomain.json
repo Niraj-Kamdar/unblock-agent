@@ -1,0 +1,25 @@
+{
+  "_id": "ens_registerDomainAndSubdomainsRecursively",
+  "schema": {
+    "name": "ens_registerDomainAndSubdomainsRecursively",
+    "description": "Register a domain and all subdomains recursively",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "domain": {
+                "type": "string",
+                "pattern": "^(.*\\.eth)$",
+                "description": "The ENS name, Ex: alice.eth"
+            }
+        },
+        "required": ["domain"]
+    }
+  },
+  "description": "Register {domain} and all its subdomains recursively.",
+  "requireSign": true,
+  "invocation": {
+    "uri": "wrap://wrapscan.io/polywrap/ens@1.0",
+    "method": "registerDomainAndSubdomainsRecursively",
+    "args": "{{ \"domain\": \"{domain}\" }}"
+  }
+}

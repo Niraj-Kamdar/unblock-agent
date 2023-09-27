@@ -4,6 +4,7 @@
     "name": "ethers_gasPrice",
     "description": "Get the current gas price in wei"
   },
+  "description": "Get the current gas price in wei.",
   "invocation": {
     "uri": "wrap://wrapscan.io/polywrap/ethers@1.1.1",
     "method": "getGasPrice",

@@ -1,9 +1,10 @@
 import json
 import os
 import secrets
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 import openai
 from fastapi import FastAPI, Security, WebSocket
+from fastapi.encoders import jsonable_encoder
 from typing import Any
 from motor.motor_asyncio import AsyncIOMotorClient
 
@@ -11,7 +12,7 @@ from .chat import Chat, ChatAndPromptNotFound
 from .constants import OPENAI_API_KEY, SANITY_LIMIT, APP_PATH, MONGO_URL
 from .agent import get_agent_response
 from .auth import get_api_key, validate_api_key
-from .crud import get_invocation
+from .crud import get_invocation_content
 from .schemas import (
     ChatCreatedResponse,
     CreateChatRequest,
@@ -20,14 +21,26 @@ from .schemas import (
     UserMessageType,
 )
 
+class CamelJSONResponse(JSONResponse):
+    def render(self, content: Any) -> bytes:
+        json_content = jsonable_encoder(content, by_alias=True)
+        return json.dumps(
+            json_content, ensure_ascii=False, allow_nan=False, indent=None, separators=(",", ":")
+        ).encode("utf-8")
+
+
 openai.api_key = OPENAI_API_KEY
-app = FastAPI()
+app = FastAPI(default_response_class=CamelJSONResponse)
 client: AsyncIOMotorClient
+default_openapi_schema: dict[str, Any]
 
 @app.on_event("startup")
 async def startup_event():
     global client
+    global default_openapi_schema
     client = AsyncIOMotorClient(MONGO_URL)
+    default_openapi_schema = app.openapi()
+    app.openapi_schema = custom_openapi_schema()
     print("Connected to MongoDB")
 
 @app.on_event("shutdown")
@@ -35,6 +48,30 @@ async def shutdown_event():
     global client
     client.close()
     print("Closed connection to MongoDB")
+
+
+def custom_openapi_schema():
+    global default_openapi_schema
+    openapi_schema = default_openapi_schema
+
+    openapi_schema["paths"]["/chats/{chat_id}"]["put"]["responses"]["200"]["content"]["application/json"]["examples"] = {
+        "invocation": {"summary": "Invocation", "value": AgentResponse.get_example(0)},
+        "validation": {"summary": "Validation", "value": AgentResponse.get_example(1)},
+        "error": {"summary": "Error", "value": AgentResponse.get_example(2)},
+        "message": {"summary": "Message", "value": AgentResponse.get_example(3)},
+        "end": {"summary": "End", "value": AgentResponse.get_example(4)},
+    }
+
+    chat_created_response = ChatCreatedResponse.get_example()
+    openapi_schema["paths"]["/chats"]["post"]["responses"]["201"]["content"]["application/json"]["examples"] = {
+        "invocation": {"summary": "Invocation", "value": {**chat_created_response, "agent_response": AgentResponse.get_example(0)}},
+        "validation": {"summary": "Validation", "value": {**chat_created_response, "agent_response": AgentResponse.get_example(1)}},
+        "error": {"summary": "Error", "value": {**chat_created_response, "agent_response": AgentResponse.get_example(2)}},
+        "message": {"summary": "Message", "value": {**chat_created_response, "agent_response": AgentResponse.get_example(3)}},
+        "end": {"summary": "End", "value": {**chat_created_response, "agent_response": AgentResponse.get_example(4)}},
+    }
+
+    return openapi_schema
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -129,7 +166,7 @@ async def chat_socket(
             )
 
             try:
-                invocation = await get_invocation(db["functions"], function_name, function_parameters)
+                invocation = await get_invocation_content(db["functions"], function_name, function_parameters)
                 await websocket.send_text(
                     json.dumps(
                         {"role": "assistant", "invocation": True, "content": invocation}

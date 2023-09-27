@@ -8,12 +8,15 @@
       "properties": {
         "message": {
           "type": "string",
+          "minLength": 1,
           "description": "The message to sign"
         }
       },
       "required": ["message"]
     }
   },
+  "description": "Sign message: {message}.",
+  "requireSign": true,
   "invocation": {
     "uri": "wrap://wrapscan.io/polywrap/ethers@1.1.1",
     "method": "signMessage",

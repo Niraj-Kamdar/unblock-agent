@@ -9,7 +9,7 @@ def http_demo():
     create_chat_request = dict(
         prompt="Send 5000 gwei to vitalik.eth"
     )
-    with Client(base_url="https://unblock-agent.fly.dev/", timeout=60) as client:
+    with Client(base_url="http://0.0.0.0:8000", timeout=60) as client:
         http_response = client.post(
             "/chats?api-key=923adjhb-288cbjSudhuido-828bchbcj", json=create_chat_request
         )
@@ -30,7 +30,7 @@ def http_demo():
                     content="",
                 )
                 with Client(
-                    base_url="https://unblock-agent.fly.dev/",
+                    base_url="http://0.0.0.0:8000",
                     timeout=60,
                 ) as client:
                     put_response = client.put(
@@ -38,6 +38,7 @@ def http_demo():
                         json=user_message_payload,
                     )
             case 1:
+                print(agent_response)
                 data = json.loads(cast(str, agent_response["content"]))
                 if data["invocation"]["method"] in ["getOwner", "getAddress"]:
                     result = dict(
@@ -69,7 +70,7 @@ def http_demo():
                 pprint(user_message_payload)
 
                 with Client(
-                    base_url="https://unblock-agent.fly.dev/",
+                    base_url="http://0.0.0.0:8000",
                     timeout=60,
                 ) as client:
                     put_response = client.put(

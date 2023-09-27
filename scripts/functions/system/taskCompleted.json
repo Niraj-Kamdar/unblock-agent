@@ -8,12 +8,14 @@
         "properties": {
             "finalMessage": {
                 "type": "string",
+                "minLength": 1,
                 "description": "The final message that you want to send to the user upon completion of the task.\nThis message must be written in a way that the user can confirm that the task has been completed."
             }
         },
         "required": ["finalMessage"]
     }
   },
+  "description": "Agent: {finalMessage}",
   "invocation": {
     "uri": "wrap://wrapscan.io/polywrap/system/taskCompleted@1.0",
     "method": "taskCompleted",
