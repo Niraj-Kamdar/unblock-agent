@@ -1,7 +1,8 @@
 from enum import Enum
+from typing import Any, Optional
+
 from pydantic import BaseModel, Field
 from pydantic.alias_generators import to_camel
-from typing import Any, Optional
 
 
 class UserMessageType(str, Enum):
@@ -100,7 +101,7 @@ class AgentResponse(CamelModel):
             None,
             None,
             "Sorry, I cannot send or manage cryptocurrencies or any other assets for you.",
-            "I have sent 0.07 ether to vitalik.eth."
+            "I have sent 0.07 ether to vitalik.eth.",
         ],
     )
 
@@ -108,9 +109,7 @@ class AgentResponse(CamelModel):
 class ChatCreatedResponse(CamelModel):
     chat_id: str = Field(..., examples=["uxBBFbpLNuCd6jB2pQT3oB"])
     prompt: str = Field(..., examples=["Send 0.07 ETH to vitalik.eth"])
-    agent_response: AgentResponse = Field(
-        ..., examples=[AgentResponse.get_example(0)]
-    )
+    agent_response: AgentResponse = Field(..., examples=[AgentResponse.get_example(0)])
 
 
 class CreateChatRequest(CamelModel):

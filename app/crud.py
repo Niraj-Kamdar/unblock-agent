@@ -1,8 +1,9 @@
 import json
-import jsonschema
 from typing import Any
 
+import jsonschema
 from motor.core import AgnosticCollection
+
 from .schemas import InvocationContent
 
 
@@ -40,9 +41,11 @@ async def get_invocation_content(
     description = function["description"].format(**function_parameters)
     require_sign = function.get("requireSign", False)
 
-    return InvocationContent.model_validate({
-        "function_name": function_name,
-        "invocation": invocation,
-        "description": description,
-        "require_sign": require_sign,
-    })
+    return InvocationContent.model_validate(
+        {
+            "function_name": function_name,
+            "invocation": invocation,
+            "description": description,
+            "require_sign": require_sign,
+        }
+    )

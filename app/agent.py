@@ -1,40 +1,35 @@
 import json
-import openai
-from typing import Any
-from motor.core import AgnosticDatabase
 import traceback
+from typing import Any
 
+import openai
+from motor.core import AgnosticDatabase
+
+from .chat import Chat
 from .constants import SANITY_LIMIT
 from .crud import get_invocation_content
-from .schemas import (
-    AgentResponse,
-    AgentResponseType,
-    UserMessageType,
-    UserMessage,
-    ErrorContent,
-    ErrorType,
-    ValidationContent
-)
-from .chat import Chat
+from .schemas import AgentResponse, UserMessage, UserMessageType
 
 
 async def get_agent_response(
     db: AgnosticDatabase, chat: Chat, message: UserMessage
 ) -> AgentResponse:
     if chat.sanity_counter >= SANITY_LIMIT:
-        return AgentResponse(
-            type=AgentResponseType.ERROR, error=ErrorContent(error=ErrorType.SANITY_LIMIT)
+        return AgentResponse.model_validate(
+            {"type": "ERROR", "error": {"error": "SANITY_LIMIT"}}
         )
 
     if (
         chat.messages[-1].get("function_call")
         and chat.messages[-1]["function_call"]["name"] == "system_taskCompleted"
     ):
-        return AgentResponse(
-            type=AgentResponseType.END,
-            message=json.loads(chat.messages[-1]["function_call"]["arguments"])[
-                "finalMessage"
-            ],
+        return AgentResponse.model_validate(
+            {
+                "type": "END",
+                "message": json.loads(chat.messages[-1]["function_call"]["arguments"])[
+                    "finalMessage"
+                ],
+            }
         )
 
     match message.type:
@@ -51,8 +46,8 @@ async def get_agent_response(
                     },
                 }
             )
-            return AgentResponse(
-                type=AgentResponseType.END, message=f"ABORTED: {message.content}"
+            return AgentResponse.model_validate(
+                {"type": "END", "message": f"ABORTED: {message.content}"}
             )
         case UserMessageType.MESSAGE:
             await chat.messages.append({"role": "user", "content": message.content})
@@ -86,9 +81,11 @@ async def get_agent_response(
             content = await get_invocation_content(
                 functions_collection, function_name, function_parameters
             )
-            return AgentResponse(
-                type=AgentResponseType.INVOCATION,
-                invocation=content,
+            return AgentResponse.model_validate(
+                {
+                    "type": "INVOCATION",
+                    "invocation": content,
+                }
             )
         except Exception as e:
             validation_error = {
@@ -99,13 +96,15 @@ async def get_agent_response(
             await chat.sanity_counter.increment(1)
             await chat.messages.append(validation_error)
 
-            return AgentResponse(
-                type=AgentResponseType.VALIDATION,
-                validation=ValidationContent(
-                    function_name=function_name,
-                    arguments=function_parameters,
-                    error=f"{e.__class__.__name__}: {e}",
-                ),
+            return AgentResponse.model_validate(
+                {
+                    "type": "VALIDATION",
+                    "validation": {
+                        "function_name": function_name,
+                        "arguments": function_parameters,
+                        "error": f"{e.__class__.__name__}: {e}",
+                    },
+                }
             )
     else:
         await chat.sanity_counter.increment(1)
@@ -115,6 +114,6 @@ async def get_agent_response(
                 "content": "You must call a function to achieve the given task.",
             }
         )
-        return AgentResponse(
-            type=AgentResponseType.MESSAGE, message=model_message["content"]
+        return AgentResponse.model_validate(
+            {"type": "MESSAGE", "message": model_message["content"]}
         )

@@ -1,5 +1,7 @@
 from typing import Any
+
 import openai
+
 from .constants import FT_PREDICTOR_MODEL, OPENAI_API_KEY, PREDICTOR_SYSTEM_PROMPT
 
 openai.api_key = OPENAI_API_KEY
@@ -17,7 +19,5 @@ async def predict_functions(prompt: str) -> list[str]:
 
     predict_function = predict_functions_result["choices"][0]["message"]
 
-    function_names =  predict_function["content"].split(", ")
-    return [
-        function_name.replace(".", "_") for function_name in function_names
-    ]
+    function_names = predict_function["content"].split(", ")
+    return [function_name.replace(".", "_") for function_name in function_names]

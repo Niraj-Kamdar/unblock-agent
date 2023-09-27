@@ -9,6 +9,10 @@ def http_demo():
     create_chat_request = dict(
         prompt="Send 5000 gwei to vitalik.eth"
     )
+
+    print("Step 1: Create a chat session")
+    print(f"Request: {create_chat_request}")
+
     with Client(base_url="http://0.0.0.0:8000", timeout=60) as client:
         http_response = client.post(
             "/chats?api-key=923adjhb-288cbjSudhuido-828bchbcj", json=create_chat_request
@@ -16,17 +20,17 @@ def http_demo():
     assert http_response.status_code == 201
 
     chat_created_response = http_response.json()
-    chat_id = chat_created_response["chat_id"]
-    agent_response = chat_created_response["agent_response"]
+    chat_id = chat_created_response["chatId"]
+    agent_response = chat_created_response["agentResponse"]
 
     while True:
         pprint(agent_response)
         match agent_response["type"]:
-            case 4:
+            case "END":
                 break
-            case 0:
+            case "MESSAGE":
                 user_message_payload = dict(
-                    type=3,
+                    type="NONE",
                     content="",
                 )
                 with Client(
@@ -37,30 +41,29 @@ def http_demo():
                         f"/chats/{chat_id}?api-key=923adjhb-288cbjSudhuido-828bchbcj",
                         json=user_message_payload,
                     )
-            case 1:
-                print(agent_response)
-                data = json.loads(cast(str, agent_response["content"]))
+            case "INVOCATION":
+                data = agent_response["invocation"]
                 if data["invocation"]["method"] in ["getOwner", "getAddress"]:
                     result = dict(
-                        type=2,
-                        function_name=data["function_name"],
-                        content="0xaddr81784836247647474",
+                        type="FUNCTION",
+                        function_name=data["functionName"],
+                        content="0x4675C7e5BaAFBFFbca748158bEcBA61ef3b0a263",
                     )
                 elif data["invocation"]["method"] == "getBalance":
                     result = dict(
-                        type=2,
-                        function_name=data["function_name"],
+                        type="FUNCTION",
+                        function_name=data["functionName"],
                         content="0.373892",
                     )
                 elif data["invocation"]["method"] == "sendTransaction":
                     result = dict(
-                        type=2,
-                        function_name=data["function_name"],
-                        content="0xtrans81784836247647827428474894474",
+                        type="FUNCTION",
+                        function_name=data["functionName"],
+                        content="0xb0e6065efed3b1c34d5e251c5783fa5b40dbcc07a7e1d326b32b07973c34812c",
                     )
                 elif data["invocation"]["method"] == "taskCompleted":
                     result = dict(
-                        type=0,
+                        type="ABORT",
                         content="DONE",
                     )
                 else:
@@ -78,9 +81,9 @@ def http_demo():
                         json=user_message_payload,
                     )
                 assert put_response.status_code == 200
-                agent_response = put_response.json()
             case _:
                 raise ValueError(agent_response)
+        agent_response = put_response.json()
 
 
 http_demo()

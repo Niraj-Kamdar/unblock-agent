@@ -1,6 +1,5 @@
-from typing import cast
+from pprint import pprint
 from fastapi.testclient import TestClient
-import json
 
 from app.main import app  # Import the FastAPI instance from your application
 from app.schemas import UserMessage, UserMessageType, AgentResponse, AgentResponseType, CreateChatRequest, ChatCreatedResponse
@@ -18,23 +17,37 @@ def test_http():
     agent_response = chat_created_response.agent_response
 
     while True:
+        pprint(agent_response)
+        
         match agent_response.type:
+            case AgentResponseType.END:
+                break
             case AgentResponseType.MESSAGE:
-                if agent_response.content == "DONE":
-                    break
+                user_message_payload = dict(
+                    type="NONE",
+                    content="",
+                )
+
+                with TestClient(app) as client:
+                    put_response = client.put(f"/chats/{chat_id}?api-key=923adjhb-288cbjSudhuido-828bchbcj", json=user_message_payload)
             case AgentResponseType.INVOCATION:
-                data = json.loads(cast(str, agent_response.content))
-                if data["invocation"]["method"] in ["getOwner", "getAddress"]:
-                    result = UserMessage(type=UserMessageType.FUNCTION, function_name=data["function_name"], content="0xaddr81784836247647474")
-                elif data["invocation"]["method"] == "getBalance":
-                    result = UserMessage(type=UserMessageType.FUNCTION, function_name=data["function_name"], content="0.373892")
-                elif data["invocation"]["method"] == "sendTransaction":
-                    result = UserMessage(type=UserMessageType.FUNCTION, function_name=data["function_name"], content="0xtrans81784836247647827428474894474")
+                data = agent_response.invocation
+                if not data:
+                    continue
+                if data.invocation.method in ["getOwner", "getAddress"]:
+                    result = UserMessage(type=UserMessageType.FUNCTION, function_name=data.function_name, content="0x4675C7e5BaAFBFFbca748158bEcBA61ef3b0a263")
+                elif data.invocation.method == "getBalance":
+                    result = UserMessage(type=UserMessageType.FUNCTION, function_name=data.function_name, content="0.373892")
+                elif data.invocation.method == "sendTransaction":
+                    result = UserMessage(type=UserMessageType.FUNCTION, function_name=data.function_name, content="0xb0e6065efed3b1c34d5e251c5783fa5b40dbcc07a7e1d326b32b07973c34812c")
+                elif data.invocation.method == "taskCompleted":
+                    result = UserMessage(
+                        type=UserMessageType.FUNCTION,
+                        content="DONE",
+                    )
                 else:
                     continue
-                user_message_payload = result.model_dump()
-                from pprint import pprint
-                pprint(user_message_payload)
+                user_message_payload = result.model_dump(by_alias=True)
 
                 with TestClient(app) as client:
                     put_response = client.put(f"/chats/{chat_id}?api-key=923adjhb-288cbjSudhuido-828bchbcj", json=user_message_payload)
@@ -42,3 +55,4 @@ def test_http():
                 agent_response = AgentResponse(**put_response.json())
             case _:
                 raise ValueError(agent_response)
+        agent_response = AgentResponse(**put_response.json())
