@@ -1,0 +1,24 @@
+{
+  "_id": "erc721_tokenMeta",
+  "schema": {
+    "name": "erc721_tokenMeta",
+    "description": "Get metadata for an ERC721 token by its address.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the ERC721 token."
+        }
+      },
+      "required": ["address"]
+    }
+  },
+  "description": "Get metadata for the ERC721 token at address {address}.",
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/erc721@1.0",
+    "method": "tokenMeta",
+    "args": "{\"address\": \"{address}\"}"
+  }
+}

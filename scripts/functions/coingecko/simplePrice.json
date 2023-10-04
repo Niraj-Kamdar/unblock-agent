@@ -1,0 +1,45 @@
+{
+  "_id": "coingecko_simplePrice",
+  "schema": {
+    "name": "coingecko_simplePrice",
+    "description": "Get the current price of any cryptocurrencies in any other supported currencies that you need.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "ids": {
+          "type": "string",
+          "description": "A comma-separated list of cryptocurrency IDs (e.g., 'bitcoin,ethereum').",
+          "pattern": "^[A-Za-z]+(,[A-Za-z]+)*$"
+        },
+        "vs_currencies": {
+          "type": "string",
+          "description": "A comma-separated list of target currency symbols (e.g., 'usd,eur').",
+          "pattern": "^[A-Za-z]+(,[A-Za-z]+)*$"
+        },
+        "include_market_cap": {
+          "type": "boolean",
+          "description": "Include market capitalization data in the response."
+        },
+        "include_24hr_vol": {
+          "type": "boolean",
+          "description": "Include 24-hour trading volume data in the response."
+        },
+        "include_24hr_change": {
+          "type": "boolean",
+          "description": "Include 24-hour price change data in the response."
+        },
+        "include_last_updated_at": {
+          "type": "boolean",
+          "description": "Include last updated timestamp in the response."
+        }
+      },
+      "required": ["ids", "vs_currencies"]
+    }
+  },
+  "description": "Get the current price of cryptocurrencies with the given IDs in the specified currencies.",
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/coingecko@1.0",
+    "method": "simplePrice",
+    "args": "{\"ids\": \"{{ ids }}\", \"vs_currencies\": \"{{ vs_currencies }}\", \"include_market_cap\": {{ include_market_cap }}, \"include_24hr_vol\": {{ include_24hr_vol }}, \"include_24hr_change\": {{ include_24hr_change }}, \"include_last_updated_at\": {{ include_last_updated_at }}}"
+  }
+}

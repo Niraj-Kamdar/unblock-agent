@@ -1,0 +1,28 @@
+{
+  "_id": "erc721_getApproved",
+  "schema": {
+    "name": "erc721_getApproved",
+    "description": "Get the Ethereum address approved to manage the given ERC721 token.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the ERC721 token."
+        },
+        "tokenId": {
+          "type": "string",
+          "description": "The token ID of the ERC721 token as a string."
+        }
+      },
+      "required": ["address", "tokenId"]
+    }
+  },
+  "description": "Get the Ethereum address approved to manage the ERC721 token with ID {tokenId} for the ERC721 token at address {address}.",
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/erc721@1.0",
+    "method": "getApproved",
+    "args": "{\"address\": \"{address}\", \"tokenId\": \"{tokenId}\"}"
+  }
+}

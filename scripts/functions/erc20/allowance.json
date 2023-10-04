@@ -1,0 +1,34 @@
+{
+  "_id": "erc20_allowance",
+  "schema": {
+    "name": "erc20_allowance",
+    "description": "Get the amount of tokens approved for spending by a specific address on behalf of the owner.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the ERC20 token."
+        },
+        "owner": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the token owner."
+        },
+        "spender": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]*$",
+          "description": "The Ethereum address of the entity for which the allowance is being checked."
+        }
+      },
+      "required": ["address", "owner", "spender"]
+    }
+  },
+  "description": "Get the allowance for {spender} to spend tokens on behalf of {owner} for the ERC20 token at address {address}.",
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/erc20@1.0",
+    "method": "allowance",
+    "args": "{\"address\": \"{address}\", \"owner\": \"{owner}\", \"spender\": \"{spender}\"}"
+  }
+}

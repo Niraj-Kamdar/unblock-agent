@@ -1,0 +1,34 @@
+{
+  "_id": "erc20_approve",
+  "schema": {
+    "name": "erc20_approve",
+    "description": "Approve a specific Ethereum address to spend a certain amount of tokens on behalf of the owner.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the ERC20 token."
+        },
+        "spender": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the entity being approved to spend tokens."
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]*$",
+          "description": "The amount of tokens to approve for spending as a string."
+        }
+      },
+      "required": ["address", "spender", "value"]
+    }
+  },
+  "description": "Approve {spender} to spend {value} tokens on behalf of the owner for the ERC20 token at address {address}.",
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/erc20@1.0",
+    "method": "approve",
+    "args": "{\"address\": \"{address}\", \"spender\": \"{spender}\", \"value\": \"{value}\"}"
+  }
+}

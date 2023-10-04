@@ -1,0 +1,39 @@
+{
+  "_id": "erc20_transferFrom",
+  "schema": {
+    "name": "erc20_transferFrom",
+    "description": "Transfer ERC20 tokens from one address to another on behalf of the owner.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the ERC20 token."
+        },
+        "from": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The sender's Ethereum address."
+        },
+        "to": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The recipient's Ethereum address."
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]*$",
+          "description": "The amount of tokens to transfer as a string."
+        }
+      },
+      "required": ["address", "from", "to", "value"]
+    }
+  },
+  "description": "Transfer {value} tokens from {from} to {to} on behalf of the owner for the ERC20 token at address {address}.",
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/erc20@1.0",
+    "method": "transferFrom",
+    "args": "{\"address\": \"{address}\", \"from\": \"{from}\", \"to\": \"{to}\", \"value\": \"{value}\"}"
+  }
+}

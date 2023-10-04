@@ -1,0 +1,29 @@
+{
+  "_id": "erc20_balanceOf",
+  "schema": {
+    "name": "erc20_balanceOf",
+    "description": "Get the balance of an Ethereum address for a specific ERC20 token.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the ERC20 token."
+        },
+        "owner": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the owner whose balance is being queried."
+        }
+      },
+      "required": ["address", "owner"]
+    }
+  },
+  "description": "Get the balance of the owner at Ethereum address {owner} for the ERC20 token at address {address}.",
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/erc20@1.0",
+    "method": "balanceOf",
+    "args": "{\"address\": \"{address}\", \"owner\": \"{owner}\"}"
+  }
+}

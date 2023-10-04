@@ -1,0 +1,34 @@
+{
+  "_id": "erc20_transfer",
+  "schema": {
+    "name": "erc20_transfer",
+    "description": "Transfer ERC20 tokens from the sender's address to the specified recipient.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the ERC20 token."
+        },
+        "to": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The recipient's Ethereum address."
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]*$",
+          "description": "The amount of tokens to transfer as a string."
+        }
+      },
+      "required": ["address", "to", "value"]
+    }
+  },
+  "description": "Transfer {value} tokens from the sender's Ethereum address to {to} for the ERC20 token at address {address}.",
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/erc20@1.0",
+    "method": "transfer",
+    "args": "{\"address\": \"{address}\", \"to\": \"{to}\", \"value\": \"{value}\"}"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "_id": "erc721_isApprovedForAll",
+  "schema": {
+    "name": "erc721_isApprovedForAll",
+    "description": "Check if an operator is approved to manage all ERC721 tokens on behalf of the owner.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the ERC721 token."
+        },
+        "owner": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the token owner."
+        },
+        "operator": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the operator."
+        }
+      },
+      "required": ["address", "owner", "operator"]
+    }
+  },
+  "description": "Check if Ethereum address {operator} is approved to manage all ERC721 tokens on behalf of the owner {owner} for the ERC721 token at address {address}.",
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/erc721@1.0",
+    "method": "isApprovedForAll",
+    "args": "{\"address\": \"{address}\", \"owner\": \"{owner}\", \"operator\": \"{operator}\"}"
+  }
+}

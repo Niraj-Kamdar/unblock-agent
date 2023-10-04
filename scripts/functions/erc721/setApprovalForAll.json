@@ -1,0 +1,33 @@
+{
+  "_id": "erc721_setApprovalForAll",
+  "schema": {
+    "name": "erc721_setApprovalForAll",
+    "description": "Set or revoke approval for an operator to manage all ERC721 tokens on behalf of the owner.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the ERC721 token."
+        },
+        "operator": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the operator."
+        },
+        "approved": {
+          "type": "boolean",
+          "description": "A boolean indicating whether to approve or revoke operator status."
+        }
+      },
+      "required": ["address", "operator", "approved"]
+    }
+  },
+  "description": "Set or revoke approval for Ethereum address {operator} to manage all ERC721 tokens on behalf of the owner for the ERC721 token at address {address}.",
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/erc721@1.0",
+    "method": "setApprovalForAll",
+    "args": "{\"address\": \"{address}\", \"operator\": \"{operator}\", \"approved\": {approved}}"
+  }
+}

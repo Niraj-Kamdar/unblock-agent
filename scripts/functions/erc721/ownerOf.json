@@ -1,0 +1,28 @@
+{
+  "_id": "erc721_ownerOf",
+  "schema": {
+    "name": "erc721_ownerOf",
+    "description": "Get the owner's Ethereum address of a specific ERC721 token by its address and token ID.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the ERC721 token."
+        },
+        "tokenId": {
+          "type": "string",
+          "description": "The token ID of the ERC721 token as a string."
+        }
+      },
+      "required": ["address", "tokenId"]
+    }
+  },
+  "description": "Get the owner's Ethereum address of the ERC721 token at address {address} and token ID {tokenId}.",
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/erc721@1.0",
+    "method": "ownerOf",
+    "args": "{\"address\": \"{address}\", \"tokenId\": \"{tokenId}\"}"
+  }
+}

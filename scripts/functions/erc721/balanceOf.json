@@ -1,0 +1,29 @@
+{
+  "_id": "erc721_balanceOf",
+  "schema": {
+    "name": "erc721_balanceOf",
+    "description": "Get the balance of a specific Ethereum address for a given ERC721 token by its address and owner's address.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the ERC721 token."
+        },
+        "owner": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the token owner."
+        }
+      },
+      "required": ["address", "owner"]
+    }
+  },
+  "description": "Get the balance of the owner's Ethereum address {owner} for the ERC721 token at address {address}.",
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/erc721@1.0",
+    "method": "balanceOf",
+    "args": "{\"address\": \"{address}\", \"owner\": \"{owner}\"}"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "_id": "coingecko_simpleTokenPrice",
+  "schema": {
+    "name": "coingecko_simpleTokenPrice",
+    "description": "Get current price of tokens (using contract addresses) for a given platform in any other currency that you need.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The platform ID (e.g., 'ethereum')."
+        },
+        "contract_addresses": {
+          "type": "string",
+          "description": "A comma-separated list of contract addresses matching the pattern '0x[0-9a-fA-F]+(,0x[0-9a-fA-F]+)*'.",
+          "pattern": "^0x[0-9a-fA-F]{40}(,0x[0-9a-fA-F]{40})*$"
+        },
+        "vs_currencies": {
+          "type": "string",
+          "description": "A comma-separated list of target currency symbols (e.g., 'usd,eur'). The pattern should be '[A-Za-z]+(,[A-Za-z]+)*'.",
+          "pattern": "^[A-Za-z]+(,[A-Za-z]+)*$"
+        },
+        "include_market_cap": {
+          "type": "boolean",
+          "description": "Include market capitalization data in the response."
+        },
+        "include_24hr_vol": {
+          "type": "boolean",
+          "description": "Include 24-hour trading volume data in the response."
+        },
+        "include_24hr_change": {
+          "type": "boolean",
+          "description": "Include 24-hour price change data in the response."
+        },
+        "include_last_updated_at": {
+          "type": "boolean",
+          "description": "Include last updated timestamp in the response."
+        }
+      },
+      "required": ["id", "vs_currencies"]
+    }
+  },
+  "description": "Get current price of tokens for the specified platform in the specified currencies.",
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/coingecko@1.0",
+    "method": "simpleTokenPrice",
+    "args": "{\"id\": \"{{ id }}\", \"contract_addresses\": \"{{ contract_addresses }}\", \"vs_currencies\": \"{{ vs_currencies }}\", \"include_market_cap\": {{ include_market_cap }}, \"include_24hr_vol\": {{ include_24hr_vol }}, \"include_24hr_change\": {{ include_24hr_change }}, \"include_last_updated_at\": {{ include_last_updated_at }}}",
+    "contentType": "application/json"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "_id": "erc721_transferFrom",
+  "schema": {
+    "name": "erc721_transferFrom",
+    "description": "Transfer an ERC721 token from one address to another on behalf of the owner.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the ERC721 token."
+        },
+        "from": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The sender's Ethereum address."
+        },
+        "to": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The recipient's Ethereum address."
+        },
+        "tokenId": {
+          "type": "string",
+          "description": "The token ID of the ERC721 token as a string."
+        }
+      },
+      "required": ["address", "from", "to", "tokenId"]
+    }
+  },
+  "description": "Transfer ERC721 token with ID {tokenId} from {from} to {to} on behalf of the owner for the ERC721 token at address {address}.",
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/erc721@1.0",
+    "method": "transferFrom",
+    "args": "{\"address\": \"{address}\", \"from\": \"{from}\", \"to\": \"{to}\", \"tokenId\": \"{tokenId}\"}"
+  }
+}
