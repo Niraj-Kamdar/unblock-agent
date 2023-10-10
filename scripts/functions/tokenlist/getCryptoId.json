@@ -1,0 +1,28 @@
+{
+  "_id": "tokenlist_getCryptoId",
+  "schema": {
+    "name": "tokenlist_getCryptoId",
+    "description": "Get the coingecko crypto-currency ID. It takes either name or symbol as the argument to look for the id.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The name of the crypto-currency"
+            },
+            "symbol": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The symbol of the crypto-currency"
+            }
+        }
+    }
+  },
+  "description": "Get the unique ID of the crypto with name: {name}, symbol: {symbol}.",
+  "invocation": {
+    "uri": "plugin/tokenlist",
+    "method": "getCryptoId",
+    "args": "{{ \"name\": \"{name}\", \"symbol\": \"{symbol}\" }}"
+  }
+}

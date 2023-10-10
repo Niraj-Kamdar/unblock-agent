@@ -1,0 +1,34 @@
+{
+  "_id": "tokenlist_getTokenAddress",
+  "schema": {
+    "name": "tokenlist_getTokenAddress",
+    "description": "Get the ERC20 token contract address. It takes either name or symbol and chain/platform/network name as the argument to look for the address.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The name of the crypto-currency"
+            },
+            "symbol": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The symbol of the crypto-currency"
+            },
+            "chainName": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The name of the blockchain according to coingecko API."
+            }
+        },
+        "required": ["chainName"]
+    }
+  },
+  "description": "Get the address of token with name: {name}, symbol: {symbol}, chainId: {chainId}.",
+  "invocation": {
+    "uri": "plugin/tokenlist",
+    "method": "getTokenAddress",
+    "args": "{{ \"name\": \"{name}\", \"symbol\": \"{symbol}\", \"chainId\": \"{chainId}\" }}"
+  }
+}

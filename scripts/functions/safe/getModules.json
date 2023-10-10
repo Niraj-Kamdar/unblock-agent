@@ -1,0 +1,24 @@
+{
+  "_id": "safe_getModules",
+  "schema": {
+    "name": "safe_getModules",
+    "description": "Returns the list of modules.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "safeAddress": {
+          "type": "string",
+          "description": "The Safe address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        }
+      },
+      "required": ["safeAddress"]
+    }
+  },
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/protocol-kit@0.1.0",
+    "method": "getModules",
+    "args": "{{}}",
+    "env": "{{ \"safeAddress\": \"{safeAddress}\" }}"
+  }
+}

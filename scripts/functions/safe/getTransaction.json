@@ -1,0 +1,23 @@
+{
+  "_id": "safe_getTransaction",
+  "schema": {
+    "name": "safe_getTransaction",
+    "description": "Returns all the information of a Safe transaction.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "safeTxHash": {
+          "type": "string",
+          "description": "Hash of the Safe transaction.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        }
+      },
+      "required": ["safeTxHash"]
+    }
+  },
+  "invocation": {
+    "uri": "plugin/safe-api-kit",
+    "method": "getTransaction",
+    "args": "{{\"safeTxHash\": \"{safeTxHash}\"}}"
+  }
+}

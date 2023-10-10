@@ -1,0 +1,23 @@
+{
+  "_id": "safe_getSafesByModule",
+  "schema": {
+    "name": "safe_getSafesByModule",
+    "description": "Returns the list of Safes where the module address provided is enabled.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "moduleAddress": {
+          "type": "string",
+          "description": "The Safe module address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        }
+      },
+      "required": ["moduleAddress"]
+    }
+  },
+  "invocation": {
+    "uri": "plugin/safe-api-kit",
+    "method": "getSafesByModule",
+    "args": "{{\"moduleAddress\": \"{moduleAddress}\"}}"
+  }
+}

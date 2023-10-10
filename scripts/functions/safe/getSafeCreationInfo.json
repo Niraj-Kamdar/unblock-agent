@@ -1,0 +1,23 @@
+{
+  "_id": "safe_getSafeCreationInfo",
+  "schema": {
+    "name": "safe_getSafeCreationInfo",
+    "description": "Returns the creation information of a Safe.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "safeAddress": {
+          "type": "string",
+          "description": "The Safe address for which to retrieve creation information.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        }
+      },
+      "required": ["safeAddress"]
+    }
+  },
+  "invocation": {
+    "uri": "plugin/safe-api-kit",
+    "method": "getSafeCreationInfo",
+    "args": "{{\"safeAddress\": \"{safeAddress}\"}}"
+  }
+}

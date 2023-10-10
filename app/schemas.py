@@ -75,6 +75,7 @@ class ValidationContent(CamelModel):
 
 class ErrorType(str, Enum):
     SANITY_LIMIT = "SANITY_LIMIT"
+    FUNCTION_NAME_REQUIRED = "FUNCTION_NAME_REQUIRED"
 
 
 class ErrorContent(CamelModel):

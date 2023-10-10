@@ -52,6 +52,14 @@ async def get_agent_response(
         case UserMessageType.MESSAGE:
             await chat.messages.append({"role": "user", "content": message.content})
         case UserMessageType.FUNCTION:
+            if not message.function_name:
+                return AgentResponse.model_validate({
+                    "type": "ERROR",
+                    "error": {
+                        "error": "FUNCTION_NAME_REQUIRED"
+                    }
+                })
+
             await chat.messages.append(
                 {
                     "role": "function",

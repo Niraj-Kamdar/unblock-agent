@@ -1,0 +1,23 @@
+{
+  "_id": "safe_getToken",
+  "schema": {
+    "name": "safe_getToken",
+    "description": "Returns the information of a given ERC20 token.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "tokenAddress": {
+          "type": "string",
+          "description": "The token address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        }
+      },
+      "required": ["tokenAddress"]
+    }
+  },
+  "invocation": {
+    "uri": "plugin/safe-api-kit",
+    "method": "getToken",
+    "args": "{\"tokenAddress\": \"{tokenAddress}\"}"
+  }
+}

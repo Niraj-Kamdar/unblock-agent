@@ -1,0 +1,23 @@
+{
+  "_id": "safe_getThreshold",
+  "schema": {
+    "name": "safe_getThreshold",
+    "description": "Returns the threshold value for the provided Safe address.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "safeAddress": {
+          "type": "string",
+          "description": "The Safe address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        }
+      },
+      "required": ["safeAddress"]
+    }
+  },
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/protocol-kit@0.1.0",
+    "method": "getThreshold",
+    "args": "{{\"safeAddress\": \"{safeAddress}\"}}"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "_id": "safe_signTransactionHash",
+  "schema": {
+    "name": "safe_signTransactionHash",
+    "description": "Signs the provided transaction hash.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "safeAddress": {
+          "type": "string",
+          "description": "Address of the Safe.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "hash": {
+          "type": "string",
+          "description": "The transaction hash to sign.",
+          "pattern": "^0x[a-fA-F0-9]{64}$"
+        }
+      },
+      "required": ["safeAddress", "hash"]
+    }
+  },
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/protocol-kit@0.1.0",
+    "method": "signTransactionHash",
+    "args": "{{\"hash\": \"{hash}\"}}",
+    "env": "{{ \"safeAddress\": \"{safeAddress}\" }}"
+  }
+}

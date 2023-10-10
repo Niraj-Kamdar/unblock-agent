@@ -1,0 +1,36 @@
+{
+  "_id": "snapshot_findProposals",
+  "schema": {
+    "name": "snapshot_findProposals",
+    "description": "Find proposals based on specified filters.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": ["CREATED", "ACTIVE", "CLOSED"],
+          "description": "Filter by proposal state (CREATED, ACTIVE, CLOSED)."
+        },
+        "author": {
+          "type": "string",
+          "description": "Filter by proposal author's Ethereum address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "spaceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(.*\\.eth)$"
+          },
+          "description": "Filter by space IDs."
+        }
+      }
+    }
+  },
+  "description": "Find proposals based on specified filters.",
+  "invocation": {
+    "uri": "plugin/snapshot",
+    "method": "findProposals",
+    "args": "{{ \"state\": \"{state}\", \"author\": \"{author}\", \"spaceIds\": {spaceIds} }}"
+  }
+}

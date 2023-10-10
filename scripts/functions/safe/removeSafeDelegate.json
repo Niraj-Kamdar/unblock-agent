@@ -1,0 +1,28 @@
+{
+  "_id": "safe_removeSafeDelegate",
+  "schema": {
+    "name": "safe_removeSafeDelegate",
+    "description": "Removes a delegate for a given Safe address.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "delegateAddress": {
+          "type": "string",
+          "description": "The delegate address to be removed.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "delegatorAddress": {
+          "type": "string",
+          "description": "The delegator address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        }
+      },
+      "required": ["delegateAddress", "delegatorAddress"]
+    }
+  },
+  "invocation": {
+    "uri": "plugin/safe-api-kit",
+    "method": "removeSafeDelegate",
+    "args": "{{\"delegateAddress\": \"{delegateAddress}\", \"delegatorAddress\": \"{delegatorAddress}\"}}"
+  }
+}

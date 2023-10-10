@@ -1,0 +1,27 @@
+{
+  "_id": "safe_confirmTransaction",
+  "schema": {
+    "name": "safe_confirmTransaction",
+    "description": "Adds a confirmation for a Safe transaction.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "safeTxHash": {
+          "type": "string",
+          "description": "Hash of the Safe transaction that will be confirmed.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "signature": {
+          "type": "string",
+          "description": "Signature of the transaction."
+        }
+      },
+      "required": ["safeTxHash", "signature"]
+    }
+  },
+  "invocation": {
+    "uri": "plugin/safe-api-kit",
+    "method": "confirmTransaction",
+    "args": "{{\"safeTxHash\": \"{safeTxHash}\", \"signature\": \"{signature}\"}}"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "_id": "safe_estimateSafeTransaction",
+  "schema": {
+    "name": "safe_estimateSafeTransaction",
+    "description": "Estimates the safeTxGas for a given Safe multi-signature transaction.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "safeAddress": {
+          "type": "string",
+          "description": "The Safe address for which to estimate the transaction gas.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "safeTransaction": {
+          "type": "object",
+          "properties": {
+            "to": {
+              "type": "string",
+              "description": "The recipient address of the transaction.",
+              "pattern": "^0x[a-fA-F0-9]{40}$"
+            },
+            "value": {
+              "type": "string",
+              "description": "The value to be sent in the transaction.",
+              "pattern": "^[1-9][0-9]*$"
+            },
+            "data": {
+              "type": "string",
+              "description": "The transaction data.",
+              "minLength": 1
+            },
+            "operation": {
+              "type": "integer",
+              "description": "The operation type (0 for Call, 1 for DelegateCall).",
+              "enum": [0, 1]
+            }
+          },
+          "required": ["to", "value", "data", "operation"]
+        }
+      },
+      "required": ["safeAddress", "safeTransaction"]
+    }
+  },
+  "invocation": {
+    "uri": "plugin/safe-api-kit",
+    "method": "estimateSafeTransaction",
+    "args": "{{\"safeAddress\": \"{safeAddress}\", \"safeTransaction\": {\"to\": \"{safeTransaction.to}\", \"value\": \"{safeTransaction.value}\", \"data\": \"{safeTransaction.data}\", \"operation\": {safeTransaction.operation}}}}"
+  }
+}

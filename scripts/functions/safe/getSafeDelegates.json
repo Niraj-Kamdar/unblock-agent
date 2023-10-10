@@ -1,0 +1,45 @@
+{
+  "_id": "safe_getSafeDelegates",
+  "schema": {
+    "name": "safe_getSafeDelegates",
+    "description": "Returns the list of delegates.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "safeAddress": {
+          "type": "string",
+          "description": "The Safe address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "delegateAddress": {
+          "type": "string",
+          "description": "The delegate address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "delegatorAddress": {
+          "type": "string",
+          "description": "The delegator address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "label": {
+          "type": "string",
+          "description": "A label to filter the returned list of delegates.",
+          "minLength": 1
+        },
+        "limit": {
+          "type": "string",
+          "description": "Limit the number of results."
+        },
+        "offset": {
+          "type": "string",
+          "description": "Offset for pagination."
+        }
+      }
+    }
+  },
+  "invocation": {
+    "uri": "plugin/safe-api-kit",
+    "method": "getSafeDelegates",
+    "args": "{{\"safeAddress\": \"{safeAddress}\", \"delegateAddress\": \"{delegateAddress}\", \"delegatorAddress\": \"{delegatorAddress}\", \"label\": \"{label}\", \"limit\": \"{limit}\", \"offset\": \"{offset}\"}}"
+  }
+}

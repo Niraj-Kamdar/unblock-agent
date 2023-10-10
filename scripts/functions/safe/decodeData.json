@@ -1,0 +1,23 @@
+{
+  "_id": "safe_decodeData",
+  "schema": {
+    "name": "safe_decodeData",
+    "description": "Decodes the specified Safe transaction data.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "string",
+          "description": "The Safe transaction data.",
+          "minLength": 1
+        }
+      },
+      "required": ["data"]
+    }
+  },
+  "invocation": {
+    "uri": "plugin/safe-api-kit",
+    "method": "decodeData",
+    "args": "{{\"data\": \"{data}\"}}"
+  }
+}

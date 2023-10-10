@@ -1,0 +1,23 @@
+{
+  "_id": "safe_getModuleTransactions",
+  "schema": {
+    "name": "safe_getModuleTransactions",
+    "description": "Returns the history of module transactions of a Safe account.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "safeAddress": {
+          "type": "string",
+          "description": "The Safe address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        }
+      },
+      "required": ["safeAddress"]
+    }
+  },
+  "invocation": {
+    "uri": "plugin/safe-api-kit",
+    "method": "getModuleTransactions",
+    "args": "{\"safeAddress\": \"{safeAddress}\"}"
+  }
+}

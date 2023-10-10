@@ -1,0 +1,29 @@
+{
+  "_id": "safe_isModuleEnabled",
+  "schema": {
+    "name": "safe_isModuleEnabled",
+    "description": "Checks if a module is enabled for the provided Safe address.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "safeAddress": {
+          "type": "string",
+          "description": "The Safe address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "moduleAddress": {
+          "type": "string",
+          "description": "The Module address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        }
+      },
+      "required": ["safeAddress", "moduleAddress"]
+    }
+  },
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/protocol-kit@0.1.0",
+    "method": "isModuleEnabled",
+    "args": "{{\"moduleAddress\": \"{moduleAddress}\"}}",
+    "env": "{{ \"safeAddress\": \"{safeAddress}\" }}"
+  }
+}

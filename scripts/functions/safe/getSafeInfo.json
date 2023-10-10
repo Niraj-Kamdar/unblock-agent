@@ -1,0 +1,23 @@
+{
+  "_id": "safe_getSafeInfo",
+  "schema": {
+    "name": "safe_getSafeInfo",
+    "description": "Returns the information and configuration of the provided Safe address.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "safeAddress": {
+          "type": "string",
+          "description": "The Safe address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        }
+      },
+      "required": ["safeAddress"]
+    }
+  },
+  "invocation": {
+    "uri": "plugin/safe-api-kit",
+    "method": "getSafeInfo",
+    "args": "{{\"safeAddress\": \"{safeAddress}\"}}"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "_id": "safe_getMultisigTransactions",
+  "schema": {
+    "name": "safe_getMultisigTransactions",
+    "description": "Returns the history of multi-signature transactions of a Safe account.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "safeAddress": {
+          "type": "string",
+          "description": "The Safe address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        }
+      },
+      "required": ["safeAddress"]
+    }
+  },
+  "invocation": {
+    "uri": "plugin/safe-api-kit",
+    "method": "getMultisigTransactions",
+    "args": "{\"safeAddress\": \"{safeAddress}\"}"
+  }
+}

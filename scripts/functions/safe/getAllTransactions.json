@@ -1,0 +1,40 @@
+{
+  "_id": "safe_getAllTransactions",
+  "schema": {
+    "name": "safe_getAllTransactions",
+    "description": "Returns a list of transactions for a Safe. The list has different structures depending on the transaction type.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "safeAddress": {
+          "type": "string",
+          "description": "The Safe address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "options": {
+          "type": "object",
+          "properties": {
+            "trusted": {
+              "type": "boolean",
+              "description": "Filter for trusted transactions."
+            },
+            "queued": {
+              "type": "boolean",
+              "description": "Filter for queued transactions."
+            },
+            "executed": {
+              "type": "boolean",
+              "description": "Filter for executed transactions."
+            }
+          }
+        }
+      },
+      "required": ["safeAddress", "options"]
+    }
+  },
+  "invocation": {
+    "uri": "plugin/safe-api-kit",
+    "method": "getAllTransactions",
+    "args": "{\"safeAddress\": \"{safeAddress}\", \"options\": {\"trusted\": {options.trusted}, \"queued\": {options.queued}, \"executed\": {options.executed}}}"
+  }
+}

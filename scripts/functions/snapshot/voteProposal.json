@@ -1,0 +1,34 @@
+{
+  "_id": "snapshot.voteProposal",
+  "schema": {
+    "name": "snapshot.voteProposal",
+    "description": "Vote on a proposal.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "proposalId": {
+          "type": "string",
+          "description": "The ID of the proposal to vote on.",
+          "pattern": "^0x[a-fA-F0-9]{64}$"
+        },
+        "choice": {
+          "type": "integer",
+          "description": "The choice to vote for (e.g., 0 for the first choice).",
+          "minimum": 0
+        },
+        "reason": {
+          "type": "string",
+          "description": "The reason or comment for the vote.",
+          "minLength": 1
+        }
+      },
+      "required": ["proposalId", "choice", "reason"]
+    }
+  },
+  "description": "Vote on proposal with ID {proposalId}.",
+  "invocation": {
+    "uri": "plugin/snapshot",
+    "method": "voteProposal",
+    "args": "{{ \"proposalId\": \"{proposalId}\", \"choice\": {choice}, \"reason\": \"{reason}\" }}"
+  }
+}

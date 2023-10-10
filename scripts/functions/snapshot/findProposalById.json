@@ -1,0 +1,24 @@
+{
+  "_id": "snapshot_findProposalById",
+  "schema": {
+    "name": "snapshot_findProposalById",
+    "description": "Find a proposal by its ID.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The ID of the proposal to retrieve.",
+          "pattern": "^0x[a-fA-F0-9]{64}$"
+        }
+      },
+      "required": ["id"]
+    }
+  },
+  "description": "Find a proposal by its ID.",
+  "invocation": {
+    "uri": "plugin/snapshot",
+    "method": "findProposalById",
+    "args": "{{ \"id\": \"{id}\" }}"
+  }
+}

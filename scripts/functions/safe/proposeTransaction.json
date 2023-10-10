@@ -1,0 +1,70 @@
+{
+  "_id": "safe_proposeTransaction",
+  "schema": {
+    "name": "safe_proposeTransaction",
+    "description": "Creates a new multi-signature transaction with its confirmations and stores it in the Safe Transaction Service.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "safeAddress": {
+          "type": "string",
+          "description": "The Safe address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "safeTransactionData": {
+          "type": "object",
+          "description": "The Safe transaction data.",
+          "properties": {
+            "to": {
+              "type": "string",
+              "description": "The recipient address of the transaction.",
+              "pattern": "^0x[a-fA-F0-9]{40}$"
+            },
+            "value": {
+              "type": "string",
+              "description": "The value to be sent in the transaction.",
+              "pattern": "^[1-9][0-9]*$"
+            },
+            "data": {
+              "type": "string",
+              "description": "The transaction data.",
+              "minLength": 1
+            },
+            "operation": {
+              "type": "integer",
+              "description": "The operation type (0 for Call, 1 for DelegateCall).",
+              "enum": [0, 1]
+            }
+          },
+          "required": ["to", "value", "data", "operation"]
+        },
+        "safeTxHash": {
+          "type": "string",
+          "description": "The hash of the Safe transaction.",
+          "pattern": "^0x[a-fA-F0-9]{64}$"
+        },
+        "senderAddress": {
+          "type": "string",
+          "description": "Address of the sender.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "senderSignature": {
+          "type": "string",
+          "description": "The signature of the sender.",
+          "minLength": 1
+        },
+        "origin": {
+          "type": "string",
+          "description": "The origin of the transaction (e.g., a dapp name).",
+          "minLength": 1
+        }
+      },
+      "required": ["safeAddress", "safeTransactionData", "safeTxHash", "senderAddress", "senderSignature", "origin"]
+    }
+  },
+  "invocation": {
+    "uri": "plugin/safe-api-kit",
+    "method": "proposeTransaction",
+    "args": "{{\"safeAddress\": \"{safeAddress}\", \"safeTransactionData\": {\"to\": \"{safeTransactionData.to}\", \"value\": \"{safeTransactionData.value}\", \"data\": \"{safeTransactionData.data}\", \"operation\": {safeTransactionData.operation}}, \"safeTxHash\": \"{safeTxHash}\", \"senderAddress\": \"{senderAddress}\", \"senderSignature\": \"{senderSignature}\", \"origin\": \"{origin}\"}}"
+  }
+}

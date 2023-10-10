@@ -1,0 +1,64 @@
+{
+  "_id": "snapshot_createProposal",
+  "schema": {
+    "name": "snapshot_createProposal",
+    "description": "Create a new proposal in a specified space.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "spaceId": {
+          "type": "string",
+          "description": "The ID of the space where the proposal will be created.",
+          "pattern": "^(.*\\.eth)$"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["SINGLE_CHOICE", "APPROVAL", "QUADRATIC", "RANKED_CHOICE", "WEIGHTED", "BASIC"],
+          "description": "The type of proposal (SINGLE_CHOICE, APPROVAL, QUADRATIC, RANKED_CHOICE, WEIGHTED, BASIC)."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the proposal.",
+          "minLength": 1
+        },
+        "body": {
+          "type": "string",
+          "description": "The body of the proposal.",
+          "minLength": 1
+        },
+        "choices": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "The choices/options for the proposal."
+        },
+        "start": {
+          "type": "integer",
+          "description": "The start timestamp of the proposal in UNIX."
+        },
+        "end": {
+          "type": "integer",
+          "description": "The end timestamp of the proposal in UNIX."
+        },
+        "snapshot": {
+          "type": "integer",
+          "description": "The snapshot timestamp of the proposal in UNIX."
+        },
+        "discussion": {
+          "type": "string",
+          "description": "Additional discussion or comments.",
+          "minLength": 1
+        }
+      },
+      "required": ["spaceId", "type", "title", "body", "choices", "start", "end", "snapshot"]
+    }
+  },
+  "description": "Create a new proposal in the space with ID {spaceId}.",
+  "invocation": {
+    "uri": "plugin/snapshot",
+    "method": "createProposal",
+    "args": "{{ \"spaceId\": \"{spaceId}\", \"type\": \"{type}\", \"title\": \"{title}\", \"body\": \"{body}\", \"choices\": {choices}, \"start\": {start}, \"end\": {end}, \"snapshot\": {snapshot}, \"discussion\": \"{discussion}\" }}"
+  }
+}

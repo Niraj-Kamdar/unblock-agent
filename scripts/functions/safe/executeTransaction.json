@@ -1,0 +1,96 @@
+{
+  "_id": "safe_executeTransaction",
+  "schema": {
+    "name": "safe_executeTransaction",
+    "description": "Executes an already approved transaction by the safe owners.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "signatures": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-zA-Z_][a-zA-Z0-9_]*$": {
+              "type": "object",
+              "properties": {
+                "signer": {
+                  "type": "string",
+                  "description": "Address of the signer.",
+                  "pattern": "^0x[a-fA-F0-9]{40}$"
+                },
+                "data": {
+                  "type": "string",
+                  "description": "Signature data.",
+                  "pattern": "^0x[a-fA-F0-9]*$"
+                }
+              },
+              "required": ["signer", "data"],
+              "additionalProperties": false
+            }
+          }
+        },
+        "safeAddress": {
+          "type": "string",
+          "description": "Address of the Safe.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "to": {
+          "type": "string",
+          "description": "Address of the contract or recipient this transaction is directed to.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "value": {
+          "type": "string",
+          "description": "Amount of ether to transfer in wei.",
+          "pattern": "^[1-9][0-9]*$"
+        },
+        "data": {
+          "type": "string",
+          "description": "Data payload of the transaction.",
+          "pattern": "^0x[a-fA-F0-9]*$"
+        },
+        "operation": {
+          "type": "integer",
+          "description": "Type of operation. CALL - 0, DELEGATECALL - 1",
+          "enum": [0, 1]
+        },
+        "safeTxHash": {
+          "type": "string",
+          "description": "The amount of gas required for a safe transaction",
+          "pattern": "^[1-9][0-9]*$"
+        },
+        "baseGas": {
+          "type": "string",
+          "description": "The base amount of gas required for a transaction.",
+          "pattern": "^[1-9][0-9]*$"
+        },
+        "gasPrice": {
+          "type": "string",
+          "description": "The price at which gas is purchased for the transaction.",
+          "pattern": "^[1-9][0-9]*$"
+        },
+        "gasToken": {
+          "type": "string",
+          "description": "The token used to pay for gas.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "refundReceiver": {
+          "type": "string",
+          "description": "The address that receives the refund.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "nonce": {
+          "type": "integer",
+          "description": "The nonce of the transaction.",
+          "minimum": 0
+        }
+      },
+      "required": ["to", "value", "data", "operation", "signatures"]
+    }
+  },
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/protocol-kit@0.1.0",
+    "method": "addSignature",
+    "args": "{{\"signatures\": {signatures}, \"data\": {{ \"to\": \"{to}\", \"value\": \"{value}\", \"data\": \"{data}\", \"operation\": {operation}, \"safeTxHash\": \"{safeTxHash}\", \"baseGas\": \"{baseGas}\", \"gasPrice\": \"{gasPrice}\", \"gasToken\": \"{gasToken}\", \"refundReceiver\": \"{refundReceiver}\", \"nonce\": {nonce} }} }}",
+    "env": "{{ \"safeAddress\": \"{safeAddress}\" }}"
+  }
+}

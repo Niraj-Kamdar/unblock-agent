@@ -1,0 +1,24 @@
+{
+  "_id": "snapshot_getFollowedSpaces",
+  "schema": {
+    "name": "snapshot_getFollowedSpaces",
+    "description": "Get the spaces followed by a user.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "string",
+          "description": "The Ethereum address of the user.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        }
+      },
+      "required": ["user"]
+    }
+  },
+  "description": "Get the spaces followed by the user at address {user}.",
+  "invocation": {
+    "uri": "plugin/snapshot",
+    "method": "getFollowedSpaces",
+    "args": "{{ \"user\": \"{user}\" }}"
+  }
+}

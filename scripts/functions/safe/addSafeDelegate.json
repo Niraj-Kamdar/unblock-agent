@@ -1,0 +1,38 @@
+{
+  "_id": "safe_addSafeDelegate",
+  "schema": {
+    "name": "safe_addSafeDelegate",
+    "description": "Adds a new delegate for a given Safe address.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "safeAddress": {
+          "type": "string",
+          "description": "The Safe address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "delegateAddress": {
+          "type": "string",
+          "description": "The delegate address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "delegatorAddress": {
+          "type": "string",
+          "description": "The delegator address.",
+          "pattern": "^0x[a-fA-F0-9]{40}$"
+        },
+        "label": {
+          "type": "string",
+          "description": "A label for the new delegate.",
+          "minLength": 1
+        }
+      },
+      "required": ["safeAddress", "delegateAddress", "delegatorAddress", "label"]
+    }
+  },
+  "invocation": {
+    "uri": "plugin/safe-api-kit",
+    "method": "addSafeDelegate",
+    "args": "{{\"safeAddress\": \"{safeAddress}\", \"delegateAddress\": \"{delegateAddress}\", \"delegatorAddress\": \"{delegatorAddress}\", \"label\": \"{label}\"}}"
+  }
+}

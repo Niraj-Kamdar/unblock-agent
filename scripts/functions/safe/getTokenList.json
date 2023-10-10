@@ -1,0 +1,12 @@
+{
+  "_id": "safe_getTokenList",
+  "schema": {
+    "name": "safe_getTokenList",
+    "description": "Returns the list of all the ERC20 tokens handled by the Safe."
+  },
+  "invocation": {
+    "uri": "plugin/safe-api-kit",
+    "method": "getTokenList",
+    "args": "{{}}"
+  }
+}
