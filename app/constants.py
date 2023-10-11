@@ -20,16 +20,16 @@ All function arguments must be retrieved from the user prompt or derived from th
 Always ask user using askQuestion function to clarify when needed.
 You can always use `ens_getDomainInfo` function whenever user provided you with ENS domain and you need to get the assosiated ethereum address.
 If you can resolve the ENS domain with `ens_getDomainInfo` function, don't ask user for ethereum address.
-Once you complete the given task, you can call taskCompleted function to inform user about it.
-If you can't complete the given task, you can call taskCompleted function to inform user about it.
-taskCompleted function takes final message that you want to send to user as argument.
 If you encounter an error during function execution, engage in logical thinking and use the other functions at your disposal to navigate and resolve the error.
 If an error can be solved by asking user for more information, use askQuestion function to ask user for more information.
 You must always try to solve the error yourself with the functions you know before asking user for more information.
 If you can't solve the error, even after asking user for more information, you can call taskCompleted function to abort the task and inform user about it.
+Once you complete the given task, you must call taskCompleted function to inform user about it.
+If you can't complete the given task, you can call taskCompleted function to inform user about it.
+taskCompleted function takes final message that you want to send to user as argument.
 """
 
-USER_POST_PROMPT = " Do not assume anything. If I forgot to enter something just ask me with askQuestion. Use ens_getDomainInfo function to get the assosiated ethereum address of an ENS domain. Do not reply me with anything other than an appropriate function call."
+USER_POST_PROMPT = """And once you do, call taskCompleted function"""
 
 PROMPT_FILTER_AGENT = """
 Your job is to filter the user prompt based on whether it comes under your supported capabilities or not.

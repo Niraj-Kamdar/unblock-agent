@@ -27,7 +27,7 @@ async def get_agent_response(
             {
                 "type": "END",
                 "message": json.loads(chat.messages[-1]["function_call"]["arguments"])[
-                    "finalMessage"
+                    "message"
                 ],
             }
         )
@@ -60,6 +60,8 @@ async def get_agent_response(
                     }
                 })
 
+            # print(message.function_name, message.content)
+
             await chat.messages.append(
                 {
                     "role": "function",
@@ -83,6 +85,9 @@ async def get_agent_response(
 
     if model_message.get("function_call"):
         function_name = model_message["function_call"]["name"]
+
+        # print(function_name, model_message["function_call"]["arguments"])
+
         function_parameters = json.loads(model_message["function_call"]["arguments"])
         try:
             content = get_invocation_content(
@@ -100,7 +105,7 @@ async def get_agent_response(
                 "name": function_name,
                 "content": traceback.format_exc(),
             }
-            print(validation_error)
+            # print(validation_error)
             await chat.sanity_counter.increment(1)
             await chat.messages.append(validation_error)
 

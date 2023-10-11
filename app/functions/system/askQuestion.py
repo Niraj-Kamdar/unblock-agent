@@ -19,6 +19,6 @@ function = {
   "invocation": {
     "uri": "wrap://wrapscan.io/polywrap/system/askQuestion@1.0",
     "method": "askQuestion",
-    "args": "{{ \"question\": \"{question}\" }}"
+    "args": "{{ \"question\": {json_question} }}"
   }
 }

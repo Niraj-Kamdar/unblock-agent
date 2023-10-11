@@ -1,8 +1,8 @@
-from .getOwner import function as _getOwner
+from .getDomainInfo import function as _getDomainInfo
 from .signerAddress import function as _signerAddress
 
 general = [
-    _getOwner,
+    _getDomainInfo,
     _signerAddress,
 ]
 

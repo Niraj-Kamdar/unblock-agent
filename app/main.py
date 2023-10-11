@@ -113,7 +113,7 @@ async def create_chat(request: CreateChatRequest, api_key: str = Security(get_ap
         db,
         chat,
         UserMessage(
-            type=UserMessageType.MESSAGE, content=f"{request.prompt}{USER_POST_PROMPT}"
+            type=UserMessageType.MESSAGE, content=f" Perform task:'{request.prompt}' {USER_POST_PROMPT}"
         ),
     )
     return ChatCreatedResponse(

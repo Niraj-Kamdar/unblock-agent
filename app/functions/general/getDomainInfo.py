@@ -19,6 +19,6 @@ function = {
   "invocation": {
     "uri": "wrap://wrapscan.io/polywrap/ens-plugin@1.0",
     "method": "getDomainInfo",
-    "args": "{{ \"domain\": \"{ens}\" }}"
+    "args": "{{ \"domain\": \"{domain}\" }}"
   }
 }

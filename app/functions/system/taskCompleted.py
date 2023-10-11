@@ -15,10 +15,10 @@ function = {
         "required": ["message"]
     }
   },
-  "description": "Agent: {message}",
+  "description": "{message}",
   "invocation": {
     "uri": "wrap://wrapscan.io/polywrap/system/taskCompleted@1.0",
     "method": "taskCompleted",
-    "args": "{{ \"message\": \"{message}\" }}"
+    "args": "{{ \"message\": {json_message} }}"
   }
 }
