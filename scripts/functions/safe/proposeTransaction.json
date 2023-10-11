@@ -63,7 +63,7 @@
     }
   },
   "invocation": {
-    "uri": "plugin/safe-api-kit",
+    "uri": "plugin/safe-api-kit@1.0",
     "method": "proposeTransaction",
     "args": "{{\"safeAddress\": \"{safeAddress}\", \"safeTransactionData\": {\"to\": \"{safeTransactionData.to}\", \"value\": \"{safeTransactionData.value}\", \"data\": \"{safeTransactionData.data}\", \"operation\": {safeTransactionData.operation}}, \"safeTxHash\": \"{safeTxHash}\", \"senderAddress\": \"{senderAddress}\", \"senderSignature\": \"{senderSignature}\", \"origin\": \"{origin}\"}}"
   }

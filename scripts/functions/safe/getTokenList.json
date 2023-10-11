@@ -5,7 +5,7 @@
     "description": "Returns the list of all the ERC20 tokens handled by the Safe."
   },
   "invocation": {
-    "uri": "plugin/safe-api-kit",
+    "uri": "plugin/safe-api-kit@1.0",
     "method": "getTokenList",
     "args": "{{}}"
   }

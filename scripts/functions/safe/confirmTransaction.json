@@ -20,7 +20,7 @@
     }
   },
   "invocation": {
-    "uri": "plugin/safe-api-kit",
+    "uri": "plugin/safe-api-kit@1.0",
     "method": "confirmTransaction",
     "args": "{{\"safeTxHash\": \"{safeTxHash}\", \"signature\": \"{signature}\"}}"
   }

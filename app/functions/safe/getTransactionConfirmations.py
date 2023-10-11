@@ -17,7 +17,7 @@ function = {
   },
   "description": "Get the list of confirmations for the safe transaction: {safeTxHash}.",
   "invocation": {
-    "uri": "plugin/safe-api-kit",
+    "uri": "plugin/safe-api-kit@1.0",
     "method": "getTransactionConfirmations",
     "args": "{{\"safeTxHash\": \"{safeTxHash}\"}}"
   }

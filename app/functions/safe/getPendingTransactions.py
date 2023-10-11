@@ -17,7 +17,7 @@ function = {
   },
   "description": "Get pending transactions for {safeAddress} safe",
   "invocation": {
-    "uri": "plugin/safe-api-kit",
+    "uri": "plugin/safe-api-kit@1.0",
     "method": "getPendingTransactions",
     "args": "{{\"safeAddress\": \"{safeAddress}\"}}"
   }

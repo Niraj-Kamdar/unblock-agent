@@ -33,7 +33,7 @@
     }
   },
   "invocation": {
-    "uri": "plugin/safe-api-kit",
+    "uri": "plugin/safe-api-kit@1.0",
     "method": "getAllTransactions",
     "args": "{\"safeAddress\": \"{safeAddress}\", \"options\": {\"trusted\": {options.trusted}, \"queued\": {options.queued}, \"executed\": {options.executed}}}"
   }

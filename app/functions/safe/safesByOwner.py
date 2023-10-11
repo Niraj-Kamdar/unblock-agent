@@ -17,7 +17,7 @@ function = {
   },
   "description": "Returns the list of Safes where {ownerAddress} is an owner.",
   "invocation": {
-    "uri": "plugin/safe-api-kit",
+    "uri": "plugin/safe-api-kit@1.0",
     "method": "getSafesByOwner",
     "args": "{{\"ownerAddress\": \"{ownerAddress}\"}}"
   }

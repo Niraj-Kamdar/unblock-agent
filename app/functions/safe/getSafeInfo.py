@@ -17,7 +17,7 @@ function = {
   },
   "description": "Get the info and configuration of {safeAddress} safe.",
   "invocation": {
-    "uri": "plugin/safe-api-kit",
+    "uri": "plugin/safe-api-kit@1.0",
     "method": "getSafeInfo",
     "args": "{{ \"safeAddress\": \"{safeAddress}\" }}"
   }

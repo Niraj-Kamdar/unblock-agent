@@ -42,7 +42,7 @@
     }
   },
   "invocation": {
-    "uri": "plugin/safe-api-kit",
+    "uri": "plugin/safe-api-kit@1.0",
     "method": "estimateSafeTransaction",
     "args": "{{\"safeAddress\": \"{safeAddress}\", \"safeTransaction\": {\"to\": \"{safeTransaction.to}\", \"value\": \"{safeTransaction.value}\", \"data\": \"{safeTransaction.data}\", \"operation\": {safeTransaction.operation}}}}"
   }

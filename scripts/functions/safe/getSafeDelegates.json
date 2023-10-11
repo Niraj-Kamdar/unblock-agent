@@ -38,7 +38,7 @@
     }
   },
   "invocation": {
-    "uri": "plugin/safe-api-kit",
+    "uri": "plugin/safe-api-kit@1.0",
     "method": "getSafeDelegates",
     "args": "{{\"safeAddress\": \"{safeAddress}\", \"delegateAddress\": \"{delegateAddress}\", \"delegatorAddress\": \"{delegatorAddress}\", \"label\": \"{label}\", \"limit\": \"{limit}\", \"offset\": \"{offset}\"}}"
   }
