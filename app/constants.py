@@ -18,8 +18,8 @@ You can ask for more information from user using askQuestion function.
 Do not enter None, null, undefined or '' as arguments when you don't know what to enter.
 All function arguments must be retrieved from the user prompt or derived from the result of other functions.
 Always ask user using askQuestion function to clarify when needed.
-You can always use `ens_getOwner` function whenever user provided you with ENS domain and you need to get the ethereum address.
-If you can resolve the ENS domain with `ens_getOwner` function, don't ask user for ethereum address.
+You can always use `ens_getDomainInfo` function whenever user provided you with ENS domain and you need to get the assosiated ethereum address.
+If you can resolve the ENS domain with `ens_getDomainInfo` function, don't ask user for ethereum address.
 Once you complete the given task, you can call taskCompleted function to inform user about it.
 If you can't complete the given task, you can call taskCompleted function to inform user about it.
 taskCompleted function takes final message that you want to send to user as argument.
@@ -29,7 +29,7 @@ You must always try to solve the error yourself with the functions you know befo
 If you can't solve the error, even after asking user for more information, you can call taskCompleted function to abort the task and inform user about it.
 """
 
-USER_POST_PROMPT = " Do not assume anything. If I forgot to enter something just ask me with askQuestion. Use ens_getOwner function to get the ethereum address of an ENS domain. Do not reply me with anything other than an appropriate function call."
+USER_POST_PROMPT = " Do not assume anything. If I forgot to enter something just ask me with askQuestion. Use ens_getDomainInfo function to get the assosiated ethereum address of an ENS domain. Do not reply me with anything other than an appropriate function call."
 
 PROMPT_FILTER_AGENT = """
 Your job is to filter the user prompt based on whether it comes under your supported capabilities or not.

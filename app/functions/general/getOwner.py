@@ -1,24 +1,24 @@
 function = {
-  "_id": "ens_getOwner",
+  "_id": "ens_getDomainInfo",
   "schema": {
-    "name": "ens_getOwner",
-    "description": "Get the owner of an ENS name.",
+    "name": "ens_getDomainInfo",
+    "description": "Get the informations about the ens domain. It includes the owner, resolver, domain name, and the address associated with the domain (resolved address).",
     "parameters": {
         "type": "object",
         "properties": {
-            "ens": {
+            "domain": {
                 "type": "string",
                 "pattern": "^(.*\\.eth)$",
                 "description": "The ENS name, Ex: alice.eth"
             }
         },
-        "required": ["ens"]
+        "required": ["domain"]
     }
   },
-  "description": "Get the owner of {ens}.",
+  "description": "Get the info about {domain}.",
   "invocation": {
-    "uri": "wrap://wrapscan.io/polywrap/ens@1.0",
-    "method": "getOwner",
+    "uri": "wrap://wrapscan.io/polywrap/ens-plugin@1.0",
+    "method": "getDomainInfo",
     "args": "{{ \"domain\": \"{ens}\" }}"
   }
 }
