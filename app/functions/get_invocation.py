@@ -18,14 +18,12 @@ def get_invocation_content(
 
     if function["schema"].get("parameters"):
         parameters_schema = function["schema"]["parameters"]
-        print(function_parameters)
-        print(parameters_schema)
         jsonschema.validate(function_parameters, parameters_schema)
 
     invocation = json.loads(json.dumps(function["invocation"]))
-    from pprint import pprint
-    print(invocation["args"].format(**function_parameters))
-    invocation["args"] = json.loads(invocation["args"].format(**function_parameters))
+    jsonified_params = {f"json_{k}": json.dumps(v) for k, v in function_parameters.items()}
+
+    invocation["args"] = json.loads(invocation["args"].format(**function_parameters, **jsonified_params))
     description = function["description"].format(**function_parameters)
     require_sign = function.get("requireSign", False)
 

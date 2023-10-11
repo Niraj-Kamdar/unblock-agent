@@ -9,12 +9,14 @@ function = {
         "owners": {
           "type": "array",
           "items": {
+            "description": "The address of the owner (signer).",
             "type": "string",
             "pattern": "^0x[a-fA-F0-9]{40}$"
           }
         },
         "threshold": {
           "type": "integer",
+          "description": "The number of signatures require to execute the transaction. Must be passed explicitly by user.",
           "minimum": 1
         }
       },
@@ -25,6 +27,6 @@ function = {
   "invocation": {
     "uri": "wrapscan.io/polywrap/protocol-kit@0.1.0",
     "method": "deploySafe",
-    "args": "{{\"safeAccountConfig\": {{\"owners\": {owners}, \"threshold\": {threshold} }} }}"
+    "args": "{{\"safeAccountConfig\": {{\"owners\": {json_owners}, \"threshold\": {threshold} }} }}"
   }
 }
