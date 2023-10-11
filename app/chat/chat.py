@@ -2,7 +2,7 @@ from typing import Any, Optional, cast
 
 from motor.core import AgnosticDatabase
 
-from ..crud import load_functions, load_functions_by_namespace
+from ..functions import get_functions
 from ..predict_functions import predict_functions
 from ..constants import UNBLOCK_AGENT_SYSTEM_PROMPT
 from .chat_list import ChatList
@@ -69,7 +69,6 @@ class Chat:
             await messages.extend(
                 [
                     {"role": "system", "content": UNBLOCK_AGENT_SYSTEM_PROMPT},
-                    {"role": "user", "content": prompt},
                 ]
             )
 
@@ -84,9 +83,5 @@ class Chat:
         return cls(db, chat_id, _prompt, messages, function_names, sanity_counter)
 
     async def functions(self):
-        functions_collection = self._db["functions"]
-        system_functions = await load_functions_by_namespace(functions_collection, "system")
-        functions = await load_functions(functions_collection, list(self._function_names))
-        functions.extend(system_functions)
-
-        return [function["schema"] for function in functions]
+        functions = get_functions()
+        return [func["schema"] for func in functions.values()]

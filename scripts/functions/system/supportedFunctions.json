@@ -1,8 +1,16 @@
+from typing import Any
+
+
 {
   "_id": "system_supportedFunctions",
   "schema": {
     "name": "system_supportedFunctions",
-    "description": "Returns all the functions the AI supports."
+    "description": "Returns all the functions the AI supports.",
+    "parameters": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    }
   },
   "description": "Fetch Supported Functions",
   "invocation": {

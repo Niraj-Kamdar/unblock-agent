@@ -7,7 +7,7 @@ from motor.core import AgnosticDatabase
 
 from .chat import Chat
 from .constants import SANITY_LIMIT
-from .crud import get_invocation_content
+from .functions import get_invocation_content
 from .schemas import AgentResponse, UserMessage, UserMessageType
 
 
@@ -85,9 +85,8 @@ async def get_agent_response(
         function_name = model_message["function_call"]["name"]
         function_parameters = json.loads(model_message["function_call"]["arguments"])
         try:
-            functions_collection = db["functions"]
-            content = await get_invocation_content(
-                functions_collection, function_name, function_parameters
+            content = get_invocation_content(
+                function_name, function_parameters
             )
             return AgentResponse.model_validate(
                 {
@@ -101,6 +100,7 @@ async def get_agent_response(
                 "name": function_name,
                 "content": traceback.format_exc(),
             }
+            print(validation_error)
             await chat.sanity_counter.increment(1)
             await chat.messages.append(validation_error)
 

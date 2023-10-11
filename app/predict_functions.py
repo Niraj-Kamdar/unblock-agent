@@ -8,6 +8,7 @@ openai.api_key = OPENAI_API_KEY
 
 
 async def predict_functions(prompt: str) -> list[str]:
+    return []
     messages = [
         {"role": "system", "content": PREDICTOR_SYSTEM_PROMPT},
         {"role": "user", "content": prompt},

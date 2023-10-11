@@ -9,10 +9,18 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import HTMLResponse, JSONResponse
 from motor.motor_asyncio import AsyncIOMotorClient
 
+from .filter_prompt import filter_prompt
 from .agent import get_agent_response
 from .auth import get_api_key
 from .chat import Chat
-from .constants import APP_PATH, MONGO_URL, OPENAI_API_KEY
+from .constants import (
+    APP_PATH,
+    MONGO_URL,
+    OPENAI_API_KEY,
+    PROMPT_FILTER_INVALID_RESPONSE,
+    PROMPT_FILTER_INFO_RESPONSE,
+    USER_POST_PROMPT,
+)
 from .openapi import custom_openapi_schema
 from .schemas import (
     AgentResponse,
@@ -80,8 +88,33 @@ async def create_chat(request: CreateChatRequest, api_key: str = Security(get_ap
 
     chat_id = secrets.token_urlsafe(16)
     chat = await Chat.from_db(db, chat_id, request.prompt)
+
+    match await filter_prompt(request.prompt):
+        case "INVALID":
+            return ChatCreatedResponse(
+                chat_id=chat.id,
+                prompt=chat.prompt,
+                agent_response=AgentResponse.model_validate(
+                    {"type": "MESSAGE", "message": PROMPT_FILTER_INVALID_RESPONSE}
+                ),
+            )
+        case "INFO":
+            return ChatCreatedResponse(
+                chat_id=chat.id,
+                prompt=chat.prompt,
+                agent_response=AgentResponse.model_validate(
+                    {"type": "MESSAGE", "message": PROMPT_FILTER_INFO_RESPONSE}
+                ),
+            )
+        case "VALID":
+            pass
+
     agent_response = await get_agent_response(
-        db, chat, UserMessage(type=UserMessageType.NONE, content="")
+        db,
+        chat,
+        UserMessage(
+            type=UserMessageType.MESSAGE, content=f"{request.prompt}{USER_POST_PROMPT}"
+        ),
     )
     return ChatCreatedResponse(
         chat_id=chat.id,

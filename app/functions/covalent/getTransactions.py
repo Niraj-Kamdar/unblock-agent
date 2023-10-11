@@ -1,0 +1,52 @@
+function = {
+  "_id": "covalent_getTransactions",
+  "schema": {
+    "name": "covalent_getTransactions",
+    "description": "Get transactions for a specific account.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "accountAddress": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "The Ethereum address of the account for which transactions are requested."
+        },
+        "options": {
+          "type": "object",
+          "properties": {
+            "pagination": {
+              "type": "object",
+              "properties": {
+                "page": {
+                  "type": "integer"
+                },
+                "perPage": {
+                  "type": "integer"
+                }
+              },
+              "required": ["page", "perPage"]
+            },
+            "blockRange": {
+              "type": "object",
+              "properties": {
+                "startBlock": {
+                  "type": "integer"
+                },
+                "endBlock": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["accountAddress"]
+    }
+  },
+  "description": "Get transactions for the Ethereum address {accountAddress}.",
+  "invocation": {
+    "uri": "wrapscan.io/polywrap/covalent@1.0",
+    "method": "getTransactions",
+    "args": "{{\"accountAddress\": \"{ accountAddress }\", \"options\": { options } }}"
+  }
+}
