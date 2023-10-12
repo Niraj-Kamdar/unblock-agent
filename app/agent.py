@@ -78,7 +78,7 @@ async def get_agent_response(
         messages=list(chat.messages),
         functions=functions,
         temperature=0,
-        max_tokens=500,
+        max_tokens=2000,
     )
     model_message = completion["choices"][0]["message"]
     await chat.messages.append(model_message)

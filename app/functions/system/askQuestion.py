@@ -15,7 +15,7 @@ function = {
         "required": ["question"]
     }
   },
-  "description": "Agent: {question}",
+  "description": "{json_question}",
   "invocation": {
     "uri": "wrap://wrapscan.io/polywrap/system/askQuestion@1.0",
     "method": "askQuestion",

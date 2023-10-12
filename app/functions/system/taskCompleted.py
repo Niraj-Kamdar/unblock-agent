@@ -15,7 +15,7 @@ function = {
         "required": ["message"]
     }
   },
-  "description": "{message}",
+  "description": "{json_message}",
   "invocation": {
     "uri": "wrap://wrapscan.io/polywrap/system/taskCompleted@1.0",
     "method": "taskCompleted",

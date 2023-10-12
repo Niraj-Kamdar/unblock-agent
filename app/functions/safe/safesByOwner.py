@@ -2,7 +2,7 @@ function = {
   "_id": "safe_getSafesByOwner",
   "schema": {
     "name": "safe_getSafesByOwner",
-    "description": "Returns the list of Safes where the address provided is an owner.",
+    "description": "Returns the list of Safes where the address provided is an owner(signer). <Note: Owner or signer can be said to be part of the safe>",
     "parameters": {
       "type": "object",
       "properties": {
