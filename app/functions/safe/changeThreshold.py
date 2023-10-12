@@ -19,6 +19,7 @@ function = {
       "required": ["safeAddress", "newThreshold"]
     }
   },
+  "requireSign": True,
   "description": "Update the threshold of {safeAddress} to {newThreshold}.",
   "invocation": {
     "uri": "plugin/safe-tx-plugin@1.0",

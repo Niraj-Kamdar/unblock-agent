@@ -15,6 +15,7 @@ function = {
       "required": ["ownerAddress"]
     }
   },
+  "requireSign": True,
   "description": "Returns the list of Safes where {ownerAddress} is an owner.",
   "invocation": {
     "uri": "plugin/safe-api-kit@1.0",

@@ -24,6 +24,7 @@ function = {
       "required": ["safeAddress", "ownerAddress", "newThreshold"]
     }
   },
+  "requireSign": True,
   "description": "Remove {ownerAddress} as owner of {safeAddress} and update threshold to {newThreshold}.",
   "invocation": {
     "uri": "plugin/safe-tx-plugin@1.0",

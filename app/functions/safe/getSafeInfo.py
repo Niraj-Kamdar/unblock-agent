@@ -15,6 +15,7 @@ function = {
       "required": ["safeAddress"]
     }
   },
+  "requireSign": True,
   "description": "Get the info and configuration of {safeAddress} safe.",
   "invocation": {
     "uri": "plugin/safe-api-kit@1.0",

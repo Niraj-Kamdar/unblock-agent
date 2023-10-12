@@ -30,6 +30,7 @@ function = {
       "required": ["safeAddress", "to", "data", "value"]
     }
   },
+  "requireSign": True,
   "description": "Create a transaction to send {value} wei to {to} with given data from {safeAddress} safe.",
   "invocation": {
     "uri": "plugin/safe-tx-plugin@1.0",

@@ -20,6 +20,7 @@ function = {
       "required": ["safeAddress", "safeTxHash"]
     }
   },
+  "requireSign": True,
   "description": "Sign {safeTxHash} transaction of {safeAddress} safe.",
   "invocation": {
     "uri": "plugin/safe-tx-plugin@1.0",

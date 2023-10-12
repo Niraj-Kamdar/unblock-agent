@@ -15,6 +15,7 @@ function = {
       "required": ["safeAddress"]
     }
   },
+  "requireSign": True,
   "description": "Get pending transactions for {safeAddress} safe",
   "invocation": {
     "uri": "plugin/safe-api-kit@1.0",

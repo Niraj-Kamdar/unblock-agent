@@ -20,6 +20,7 @@ function = {
       "required": ["safeAddress", "moduleAddress"]
     }
   },
+  "requireSign": True,
   "description": "Enable {moduleAddress} module for {safeAddress} safe.",
   "invocation": {
     "uri": "plugin/safe-tx-plugin@1.0",
