@@ -22,10 +22,11 @@ def get_invocation_content(
 
     invocation = json.loads(json.dumps(function["invocation"]))
     jsonified_params = {f"json_{k}": json.dumps(v) for k, v in function_parameters.items()}
-    print(jsonified_params)
+
+    # print(jsonified_params)
 
     invocation["args"] = json.loads(invocation["args"].format(**function_parameters, **jsonified_params))
-    description = function["description"].format(**function_parameters)
+    description = function["description"].format(**function_parameters, **jsonified_params)
     require_sign = function.get("requireSign", False)
 
     return InvocationContent.model_validate(
