@@ -87,16 +87,12 @@ async def create_chat(request: CreateChatRequest, api_key: str = Security(get_ap
     chat_id = secrets.token_urlsafe(16)
     chat = await Chat.from_db(db, chat_id, request.prompt)
 
-    filter_flag = await filter_prompt(chat.prompt)
-    if filter_flag != "VALID":
-        return await post_filter_response(chat, filter_flag)
-
     agent_response = await get_agent_response(
         db,
         chat,
         UserMessage(
             type=UserMessageType.MESSAGE,
-            content=f" Perform task:'{request.prompt}' {USER_POST_PROMPT}",
+            content=request.prompt,
         ),
     )
     return ChatCreatedResponse(

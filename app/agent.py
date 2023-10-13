@@ -5,8 +5,9 @@ from typing import Any
 import openai
 from motor.core import AgnosticDatabase
 
+from .filter_prompt import filter_prompt, post_filter_response
 from .chat import Chat
-from .constants import SANITY_LIMIT
+from .constants import SANITY_LIMIT, USER_POST_PROMPT
 from .functions import get_invocation_content
 from .schemas import AgentResponse, UserMessage, UserMessageType
 
@@ -23,14 +24,13 @@ async def get_agent_response(
         chat.messages[-1].get("function_call")
         and chat.messages[-1]["function_call"]["name"] == "system_taskCompleted"
     ):
-        return AgentResponse.model_validate(
-            {
-                "type": "END",
-                "message": json.loads(chat.messages[-1]["function_call"]["arguments"])[
-                    "message"
-                ],
-            }
-        )
+        abort_message = json.loads(chat.messages[-1]["function_call"]["arguments"])[
+            "message"
+        ]
+        if abort_message.startswith("ABORTED: "):
+            return AgentResponse.model_validate(
+                {"type": "END", "message": abort_message}
+            )
 
     match message.type:
         case UserMessageType.ABORT:
@@ -41,7 +41,7 @@ async def get_agent_response(
                     "function_call": {
                         "name": "system_taskCompleted",
                         "arguments": json.dumps(
-                            {"finalMessage": f"ABORTED: {message.content}"}
+                            {"message": f"ABORTED: {message.content}"}
                         ),
                     },
                 }
@@ -50,15 +50,26 @@ async def get_agent_response(
                 {"type": "END", "message": f"ABORTED: {message.content}"}
             )
         case UserMessageType.MESSAGE:
-            await chat.messages.append({"role": "user", "content": message.content})
+            if chat.messages[-1].get("role") == "system" or (
+                chat.messages[-1].get("function_call")
+                and chat.messages[-1]["function_call"]["name"] == "system_taskCompleted"
+            ):
+                filter_flag = await filter_prompt(chat.prompt)
+                if filter_flag != "VALID":
+                    return await post_filter_response(chat, filter_flag)
+                await chat.messages.append(
+                    {
+                        "role": "user",
+                        "content": f"Thanks, Now perform new task:'{message.content}' {USER_POST_PROMPT}",
+                    }
+                )
+            else:
+                await chat.messages.append({"role": "user", "content": message.content})
         case UserMessageType.FUNCTION:
             if not message.function_name:
-                return AgentResponse.model_validate({
-                    "type": "ERROR",
-                    "error": {
-                        "error": "FUNCTION_NAME_REQUIRED"
-                    }
-                })
+                return AgentResponse.model_validate(
+                    {"type": "ERROR", "error": {"error": "FUNCTION_NAME_REQUIRED"}}
+                )
 
             # print(message.function_name, message.content)
 
@@ -90,9 +101,7 @@ async def get_agent_response(
 
         function_parameters = json.loads(model_message["function_call"]["arguments"])
         try:
-            content = get_invocation_content(
-                function_name, function_parameters
-            )
+            content = get_invocation_content(function_name, function_parameters)
             return AgentResponse.model_validate(
                 {
                     "type": "INVOCATION",

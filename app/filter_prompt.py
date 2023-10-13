@@ -1,7 +1,7 @@
 from typing import Literal, Union, cast
 import openai
 
-from .schemas import AgentResponse, ChatCreatedResponse
+from .schemas import AgentResponse
 from .chat import Chat
 from .constants import (
     OPENAI_API_KEY,
@@ -27,7 +27,9 @@ async def filter_prompt(
     )
 
     for _ in range(10):  # amount of retries
-        filter_reponse = cast(str, predict_functions_result["choices"][0]["message"]["content"])
+        filter_reponse = cast(
+            str, predict_functions_result["choices"][0]["message"]["content"]
+        )
         match filter_reponse:
             case "❌":
                 return "INVALID"
@@ -48,49 +50,43 @@ async def filter_prompt(
     return "INVALID"
 
 
-async def post_filter_response(chat: Chat, flag: Union[Literal["INVALID"], Literal["INFO"]]):
+async def post_filter_response(
+    chat: Chat, flag: Union[Literal["INVALID"], Literal["INFO"]]
+):
     match flag:
         case "INVALID":
-            return ChatCreatedResponse(
-                chat_id=chat.id,
-                prompt=chat.prompt,
-                agent_response=AgentResponse.model_validate(
-                    {
-                        "type": "INVOCATION",
+            return AgentResponse.model_validate(
+                {
+                    "type": "INVOCATION",
+                    "invocation": {
+                        "function_name": "system_taskCompleted",
+                        "description": PROMPT_FILTER_INVALID_RESPONSE,
                         "invocation": {
-                            "function_name": "system_taskCompleted",
-                            "description": PROMPT_FILTER_INVALID_RESPONSE,
-                            "invocation": {
-                                "uri": "plugin/system-plugin@1.0",
-                                "method": "taskCompleted",
-                                "args": {
-                                    "message": PROMPT_FILTER_INVALID_RESPONSE,
-                                },
+                            "uri": "plugin/system-plugin@1.0",
+                            "method": "taskCompleted",
+                            "args": {
+                                "message": PROMPT_FILTER_INVALID_RESPONSE,
                             },
-                            "requireSign": False,
                         },
-                    }
-                ),
+                        "requireSign": False,
+                    },
+                }
             )
         case "INFO":
-            return ChatCreatedResponse(
-                chat_id=chat.id,
-                prompt=chat.prompt,
-                agent_response=AgentResponse.model_validate(
-                    {
-                        "type": "INVOCATION",
+            return AgentResponse.model_validate(
+                {
+                    "type": "INVOCATION",
+                    "invocation": {
+                        "function_name": "system_taskCompleted",
+                        "description": PROMPT_FILTER_INFO_RESPONSE,
                         "invocation": {
-                            "function_name": "system_taskCompleted",
-                            "description": PROMPT_FILTER_INFO_RESPONSE,
-                            "invocation": {
-                                "uri": "plugin/system-plugin@1.0",
-                                "method": "taskCompleted",
-                                "args": {
-                                    "message": PROMPT_FILTER_INFO_RESPONSE,
-                                },
+                            "uri": "plugin/system-plugin@1.0",
+                            "method": "taskCompleted",
+                            "args": {
+                                "message": PROMPT_FILTER_INFO_RESPONSE,
                             },
-                            "requireSign": False,
                         },
-                    }
-                ),
+                        "requireSign": False,
+                    },
+                }
             )
