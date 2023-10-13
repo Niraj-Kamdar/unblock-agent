@@ -10,7 +10,7 @@ function: dict[str, Any] = {
     },
     "description": "Fetch Supported Functions",
     "invocation": {
-        "uri": "wrap://wrapscan.io/polywrap/system/supportedFunctions@1.0",
+        "uri": "plugin/system-plugin@1.0",
         "method": "supportedFunctions",
         "args": "{{}}",
     },

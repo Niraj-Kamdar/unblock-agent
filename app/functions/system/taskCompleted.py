@@ -17,7 +17,7 @@ function = {
   },
   "description": "{json_message}",
   "invocation": {
-    "uri": "wrap://wrapscan.io/polywrap/system/taskCompleted@1.0",
+    "uri": "plugin/system-plugin@1.0",
     "method": "taskCompleted",
     "args": "{{ \"message\": {json_message} }}"
   }

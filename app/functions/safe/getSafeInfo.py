@@ -2,7 +2,7 @@ function = {
   "_id": "safe_getSafeInfo",
   "schema": {
     "name": "safe_getSafeInfo",
-    "description": "Returns the information and configuration of the provided Safe address. Returns the address, nonce, threshold, owners, modules, version, etc of the given safe.",
+    "description": "Returns the information and configuration of the provided Safe address. Returns the address, nonce, threshold, owners, modules, and version of the given safe.",
     "parameters": {
       "type": "object",
       "properties": {

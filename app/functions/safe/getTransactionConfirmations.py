@@ -2,7 +2,7 @@ function = {
   "_id": "safe_getTransactionConfirmations",
   "schema": {
     "name": "safe_getTransactionConfirmations",
-    "description": "Returns the list of confirmations for a given Safe transaction.",
+    "description": "Returns the list of confirmations for a given Safe transaction. It can be used to get list of confirmations for a pending transaction on a safe.",
     "parameters": {
       "type": "object",
       "properties": {

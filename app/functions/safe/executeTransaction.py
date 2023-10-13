@@ -2,7 +2,7 @@ function = {
   "_id": "safe_executeTransaction",
   "schema": {
     "name": "safe_executeTransaction",
-    "description": "Executes a specified transaction for the given safe address using the provided transaction hash.",
+    "description": "Executes a specified transaction for the given safe address using the provided transaction hash. Use this function to execute a pending transaction that has met the required number of confirmations threshold.",
     "parameters": {
       "type": "object",
       "properties": {

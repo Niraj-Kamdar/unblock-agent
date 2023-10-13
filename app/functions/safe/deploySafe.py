@@ -2,7 +2,7 @@ function = {
   "_id": "safe_deploySafe",
   "schema": {
     "name": "safe_deploySafe",
-    "description": "Deploys a new Safe smart contract. Safe is a multisig account on ethereum.",
+    "description": "Deploys a new Safe smart contract. Safe is a multisig account on ethereum. Only use this function to create a new safe.",
     "parameters": {
       "type": "object",
       "properties": {

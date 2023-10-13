@@ -17,7 +17,7 @@ function = {
   },
   "description": "{json_question}",
   "invocation": {
-    "uri": "wrap://wrapscan.io/polywrap/system/askQuestion@1.0",
+    "uri": "plugin/system-plugin@1.0",
     "method": "askQuestion",
     "args": "{{ \"question\": {json_question} }}"
   }

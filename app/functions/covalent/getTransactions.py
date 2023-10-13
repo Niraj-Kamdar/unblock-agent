@@ -2,7 +2,7 @@ function = {
   "_id": "covalent_getTransactions",
   "schema": {
     "name": "covalent_getTransactions",
-    "description": "Get transactions for a specific account.",
+    "description": "Get transactions for a specific account. Returns historical transactions for a given ethereum address.",
     "parameters": {
       "type": "object",
       "properties": {

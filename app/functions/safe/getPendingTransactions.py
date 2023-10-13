@@ -2,7 +2,7 @@ function = {
   "_id": "safe_getPendingTransactions",
   "schema": {
     "name": "safe_getPendingTransactions",
-    "description": "Returns the list of multi-signature transactions that are waiting for the confirmation of the Safe owners.",
+    "description": "Returns the list of multi-signature transactions that aren't executed yet. Transaction may be pending because required signatures haven't been collected yet or because it hasn't been executed after collecting required confirmations yet.",
     "parameters": {
       "type": "object",
       "properties": {

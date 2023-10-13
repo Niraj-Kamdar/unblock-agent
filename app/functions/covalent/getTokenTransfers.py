@@ -2,7 +2,7 @@ function = {
   "_id": "covalent_getTokenTransfers",
   "schema": {
     "name": "covalent_getTokenTransfers",
-    "description": "Get token transfers for a specific account and token.",
+    "description": "Get token transfers for a specific ethereum account and token. Returns historical token transfers for a given ethereum address and a token address.",
     "parameters": {
       "type": "object",
       "properties": {

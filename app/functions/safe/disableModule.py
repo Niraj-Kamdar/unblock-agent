@@ -2,7 +2,7 @@ function = {
   "_id": "safe_disableModule",
   "schema": {
     "name": "safe_disableModule",
-    "description": "Disables a module for a specified safe.",
+    "description": "Disables a module for a specified safe. Use this function when user wants to disable a module for the safe.",
     "parameters": {
       "type": "object",
       "properties": {

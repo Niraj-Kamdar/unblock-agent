@@ -1,10 +1,14 @@
 from typing import Literal, Union, cast
 import openai
 
+from .schemas import AgentResponse, ChatCreatedResponse
+from .chat import Chat
 from .constants import (
     OPENAI_API_KEY,
     PROMPT_FILTER_AGENT,
     PROMPT_FILTER_HALLUCINATION_ANSWER,
+    PROMPT_FILTER_INFO_RESPONSE,
+    PROMPT_FILTER_INVALID_RESPONSE,
 )
 
 openai.api_key = OPENAI_API_KEY
@@ -42,3 +46,51 @@ async def filter_prompt(
                     max_tokens=500,
                 )
     return "INVALID"
+
+
+async def post_filter_response(chat: Chat, flag: Union[Literal["INVALID"], Literal["INFO"]]):
+    match flag:
+        case "INVALID":
+            return ChatCreatedResponse(
+                chat_id=chat.id,
+                prompt=chat.prompt,
+                agent_response=AgentResponse.model_validate(
+                    {
+                        "type": "INVOCATION",
+                        "invocation": {
+                            "function_name": "system_taskCompleted",
+                            "description": PROMPT_FILTER_INVALID_RESPONSE,
+                            "invocation": {
+                                "uri": "plugin/system-plugin@1.0",
+                                "method": "taskCompleted",
+                                "args": {
+                                    "message": PROMPT_FILTER_INVALID_RESPONSE,
+                                },
+                            },
+                            "requireSign": False,
+                        },
+                    }
+                ),
+            )
+        case "INFO":
+            return ChatCreatedResponse(
+                chat_id=chat.id,
+                prompt=chat.prompt,
+                agent_response=AgentResponse.model_validate(
+                    {
+                        "type": "INVOCATION",
+                        "invocation": {
+                            "function_name": "system_taskCompleted",
+                            "description": PROMPT_FILTER_INFO_RESPONSE,
+                            "invocation": {
+                                "uri": "plugin/system-plugin@1.0",
+                                "method": "taskCompleted",
+                                "args": {
+                                    "message": PROMPT_FILTER_INFO_RESPONSE,
+                                },
+                            },
+                            "requireSign": False,
+                        },
+                    }
+                ),
+            )
