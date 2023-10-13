@@ -2,7 +2,7 @@ function = {
   "_id": "safe_changeThreshold",
   "schema": {
     "name": "safe_changeThreshold",
-    "description": "Updates the threshold for a specified safe. Threshold is number of signatures required for execution of a transaction. Use this function when user wants to change the threshold of the safe.",
+    "description": "Updates the threshold for a specified safe. Threshold is number of signatures required for execution of a transaction.",
     "parameters": {
       "type": "object",
       "properties": {

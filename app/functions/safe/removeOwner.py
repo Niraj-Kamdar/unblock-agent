@@ -2,7 +2,7 @@ function = {
   "_id": "safe_removeOwner",
   "schema": {
     "name": "safe_removeOwner",
-    "description": "Removes an owner from a specified safe and updates the threshold for the safe. Use this function when user wants to remove an owner from the safe.",
+    "description": "Removes an owner from a specified safe and updates the threshold for the safe.",
     "parameters": {
       "type": "object",
       "properties": {

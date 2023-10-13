@@ -9,7 +9,7 @@ function = {
         "safeTxHash": {
           "type": "string",
           "description": "The hash of the Safe transaction.",
-          "pattern": "^0x[a-fA-F0-9]{40}$"
+          "pattern": "^0x[a-fA-F0-9]{64}$"
         }
       },
       "required": ["safeTxHash"]

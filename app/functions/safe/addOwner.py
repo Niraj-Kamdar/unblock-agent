@@ -2,7 +2,7 @@ function = {
   "_id": "safe_addOwner",
   "schema": {
     "name": "safe_addOwner",
-    "description": "Adds an owner to a specified safe and updates the threshold for the safe. Use this function when user wants to add a new owner to the safe.",
+    "description": "Adds an owner to a specified safe and updates the threshold for the safe.",
     "parameters": {
       "type": "object",
       "properties": {

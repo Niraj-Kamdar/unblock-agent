@@ -94,6 +94,37 @@ def http_demo():
                         function_name=data["functionName"],
                         content="{\"safes\":[\"0x164cb3676F4A465403F269730F0B4dE0E9D47298\",\"0x4449C2916e53F6337Fd8c776F95e37e9365F005a\",\"0x77256aA4CC49649E2Ed1c91F66738e969821ee32\",\"0x7854e996686edca87933F3247E74353D8691bada\",\"0x039f3f7ae9a75Aa454c6200d0A2BE802cFd6795C\",\"0x57236ec948125F3c28642b05eDB7a775135703c6\",\"0x2C618aC0e882570c7e65B2aFDAeC5b98B5444387\",\"0xEB25f75AaD45e74fBD7E5aBd3467EC06D1Aa82F6\",\"0x94202F9ee83d21D243335a61e79b0A19eB308150\",\"0x0607ba4a93460c1f21ABCAb3B731E5189A93635c\",\"0x2678e9537EF09Ac8CAeeC72E9c044bb6D79E437D\",\"0xabff5AfD405176DD22803501fF3d9Bc0adc19004\",\"0x79E490c4933e508BA2f33Ac7b55aF6e637E572Fe\",\"0xaaeEB0d44a66B7da5ed50e804a022fD364Cc8d5A\",\"0xFB1248819b82928230b2861166c8A55eb9D1d8ea\",\"0xfFEDEdBD28E4C0dbE0A1c51058A6f10132F3A686\",\"0x8e160C8E949967D6B797CdF2A2F38f6344a5C95f\",\"0x9af3b5e801B5736e8c8935D60a92Cd89Fad71DF2\",\"0xB36082ba6c35490D1E167CC6Dd5ad20884A21Afb\",\"0xB6E8983C255c3FAF2a739901da358d8F8983CCD9\",\"0x6928Dcc6366Aa661d5cABb53205D10d20b794c5B\",\"0xC3006DA4751eC51Ca7e7BDd2D271936944324818\",\"0x220866B1A2219f40e72f5c628B65D54268cA3A9D\",\"0x59A6a7932353fc742648FFbaF2A505BbdAEB5a2C\",\"0xA06C2B67e7435cE25a5969e49983ec3304D8e787\",\"0x989C7C60F603Ec8ebEf925Ba4917270B35593353\",\"0x9C0b64dF36e9fCE685609f63E09ce37625393D74\",\"0xF7669e198C7fC4085131116014CEF2174bdB9B64\",\"0xe2E089e25beBdB65682a2e7362063f3017416e47\",\"0x0B19E087493a6EC31661470bd9bA6C49873E97f0\",\"0xf20784fB0047fE897919B1cd4264daD364C9D5a3\"]},\"error\":null}",
                     )
+                # Use this function to transfer or send wei/gwei/ether from a safe address to someone without any data.
+                elif data["invocation"]["method"] == "createTransaction":
+                    result = dict(
+                        type="FUNCTION",
+                        function_name=data["functionName"],
+                        content=json.dumps(
+                            {
+                                "safeTxHash": "0xb0c589d7f025ad8396d5127bbf48c141fed2e42a5c857b42cf3d12aac2d692ee"
+                            }
+                        ),
+                    )
+                elif data["invocation"]["method"] == "signTransaction":
+                    result = dict(
+                        type="FUNCTION",
+                        function_name=data["functionName"],
+                        content=json.dumps(
+                            {
+                                "signature": "0x827abc893892bcddd29293388370000928928bce9289298389ddff7292ff0229"
+                            }
+                        ),
+                    )
+                elif data["invocation"]["method"] == "executeTransaction":
+                    result = dict(
+                        type="FUNCTION",
+                        function_name=data["functionName"],
+                        content=json.dumps(
+                            {
+                                "txHash": "0xf1014ca9760db3a4bb75d187606c4af0563576231a2b2d30be2aaea19321506a"
+                            }
+                        ),
+                    )
                 elif data["invocation"]["method"] == "deploySafe":
                     result = dict(
                         type="FUNCTION",

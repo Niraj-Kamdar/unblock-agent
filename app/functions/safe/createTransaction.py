@@ -2,7 +2,7 @@ function = {
   "_id": "safe_createTransaction",
   "schema": {
     "name": "safe_createTransaction",
-    "description": "Creates a new transaction for the specified safe address. This function can be used to transfer ether to someone or call a contract function with encoded data. If user asks to transfer ETH from safe to someone else then use this function.",
+    "description": "Creates a new transaction for the specified safe address. This function can be used to transfer ether to someone or call a contract function with encoded data. If the transaction is to transfer ether, the data field should be 0x0.",
     "parameters": {
       "type": "object",
       "properties": {
@@ -19,7 +19,7 @@ function = {
         "data": {
           "type": "string",
           "description": "The transaction data.",
-          "pattern": "^0x[a-fA-F0-9]*$"
+          "pattern": "^0x[a-fA-F0-9]+$"
         },
         "value": {
           "type": "string",
