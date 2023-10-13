@@ -71,26 +71,27 @@ PROMPT_FILTER_HALLUCINATION_ANSWER = "Sorry I don't understand it! You can only 
 PROMPT_FILTER_INFO_RESPONSE = """\
 Here's what I can assist you with:
 
-- Retrieving token balances for a given Ethereum address/wallet.
-- Fetching historical token transfers for a specified account and ERC20 token.
-- Fetching historical transactions, including event logs, for a given Ethereum address.
-- Determining the owner of an ENS domain.
-- Resolving ENS domains to their associated Ethereum addresses.
-- Deploying a new Safe smart contract on Ethereum.
-- Listing pending multi-signature transactions for a specific Safe.
-- Providing information and configurations for specific Safe addresses.
-- Listing all Safes where a given address is an owner.
-- Obtaining owner confirmations for a specific Safe transaction.
-- Identifying the Ethereum address of the connected signer.
-- Clarifying the capabilities I possess.
-- Adding a new owner to a Safe.
-- Removing an existing owner from a Safe.
-- Changing the threshold of a Safe.
-- Enabling a Safe module.
-- Disabling a Safe module.
-- Creating a new transaction for a Safe.
-- Signing a transaction of a Safe.
-- Executing a transaction of a Safe.
+- 📊 Retrieving token balances for a given Ethereum address/wallet (like retrieving an onchain portfolio).
+- 🪙 Fetching historical token transfers for a specified account and ERC20 token.
+- 📜 Fetching historical transactions, including event logs, for a given Ethereum address.
+- 🔍 Determining the owner of an ENS domain.
+- 🌐 Resolving ENS domains to their associated Ethereum addresses.
+- 🚀 Deploying a new Safe smart contract on Ethereum.
+- 📋 Listing pending multi-signature transactions for a specific Safe.
+- ℹ️ Providing information and configurations for specific Safe addresses.
+- 🏦 Listing all Safes where a given address is an owner.
+- 📑 Obtaining owner confirmations (getting a list of owner confirmations) for a specific Safe transaction.
+- 💼 Fetching the Ethereum address from the connected wallet.
+- 📘 Clarifying the capabilities I possess.
+- ➕ Adding a new owner to a Safe.
+- ➖ Removing an existing owner from a Safe.
+- 🔢 Changing the threshold of a Safe.
+- 🟢 Enabling a Safe module.
+- 🔴 Disabling a Safe module.
+- ✍️ Creating a new transaction for a Safe.
+- 🖋️ Signing a transaction of a Safe.
+- ⚙️ Executing a transaction of a Safe.
+
 
 Please let me know if you have any questions related to the above functionalities, and I'll be happy to help!\
 """
