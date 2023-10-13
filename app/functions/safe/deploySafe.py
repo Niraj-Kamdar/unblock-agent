@@ -26,8 +26,8 @@ function = {
   "requireSign": True,
   "description": "Deploy a new safe with the {owners} as owners and {threshold} threshold.",
   "invocation": {
-    "uri": "wrapscan.io/polywrap/protocol-kit@0.1.0",
+    "uri": "plugin/safe-tx-plugin@1.0",
     "method": "deploySafe",
-    "args": "{{\"input\": {{ \"safeAccountConfig\": {{\"owners\": {json_owners}, \"threshold\": {threshold} }} }} }}"
+    "args": "{{\"owners\": {json_owners}, \"threshold\": {threshold} }}"
   }
 }
