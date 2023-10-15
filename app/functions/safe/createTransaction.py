@@ -22,9 +22,9 @@ function = {
           "pattern": "^0x[a-fA-F0-9]+$"
         },
         "value": {
-          "type": "string",
+          "type": "integer",
           "description": "The value to be transferred with the transaction in Wei. if specified in Ether, convert it to Wei before passing it to this function. Use ethers_toWei function to convert Ether to Wei.",
-          "minLength": 1
+          "minimum": 0
         }
       },
       "required": ["safeAddress", "to", "data", "value"]
