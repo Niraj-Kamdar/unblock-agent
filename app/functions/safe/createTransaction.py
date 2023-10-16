@@ -2,7 +2,7 @@ function = {
   "_id": "safe_createTransaction",
   "schema": {
     "name": "safe_createTransaction",
-    "description": "Creates a new transaction for the specified safe address. This function can be used to transfer ether (in Wei unit) to someone or call a contract function with encoded data. If the transaction is to transfer ether (in Wei unit), the data field should be 0x0.",
+    "description": "Creates a new transaction for the specified safe address. This function can be used to transfer ether (in Wei unit) to someone or call a contract function with encoded data. If the transaction is to transfer ether (in Wei unit), the data field should be 0x00.",
     "parameters": {
       "type": "object",
       "properties": {
@@ -19,7 +19,8 @@ function = {
         "data": {
           "type": "string",
           "description": "The transaction data.",
-          "pattern": "^0x[a-fA-F0-9]+$"
+          "pattern": "^0x[a-fA-F0-9]+$",
+          "minLength": 4
         },
         "value": {
           "type": "integer",
