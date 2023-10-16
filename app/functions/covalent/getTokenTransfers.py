@@ -48,6 +48,7 @@ function = {
       "required": ["accountAddress", "tokenAddress"]
     }
   },
+  "requireSign": True,
   "description": "Get token transfers for the Ethereum address {accountAddress} and token address {tokenAddress}.",
   "invocation": {
     "uri": "wrapscan.io/polywrap/covalent@1.0",

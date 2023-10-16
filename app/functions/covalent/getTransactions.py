@@ -43,6 +43,7 @@ function = {
       "required": ["accountAddress"]
     }
   },
+  "requireSign": True,
   "description": "Get transactions for the Ethereum address {accountAddress}.",
   "invocation": {
     "uri": "wrapscan.io/polywrap/covalent@1.0",
