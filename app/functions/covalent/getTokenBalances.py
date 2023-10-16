@@ -2,7 +2,7 @@ function = {
   "_id": "covalent_getTokenBalances",
   "schema": {
     "name": "covalent_getTokenBalances",
-    "description": "Get token balances for a specific account. This function can be used to get portfolio, token balances or total assets of a person on the blockchain.",
+    "description": "Get token balances for a specific account. This function can be used to get balance, portfolio, token balances or total assets of a person on the blockchain. Note: token balances are always in correct decimals format with maximum precision. Do not convert them to Wei or Ether.",
     "parameters": {
       "type": "object",
       "properties": {
